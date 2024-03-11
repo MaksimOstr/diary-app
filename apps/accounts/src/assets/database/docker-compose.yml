@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postDB:
+    image: postgres:16.2
+    restart: always
+    container_name: diaryDatabase
+    environment:
+      POSTGRES_PASSWORD: masterkey
+      POSTGRES_USER: admin
+      POSTGRES_DB: diary
+      PGDATA: /data/postgres
+    volumes:
+      - /var/lib/docker/volumes/diaryVol/_data
+    command: 
+      - 'postgres'
+      - '-c'
+      - 'port=5440'
+    ports:
+      - "5440:5440"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: masterkey
+    ports:
+      - "5050:80"
+
+

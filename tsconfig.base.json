@@ -14,7 +14,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@diary-app/SignIn": ["libs/web/auth/SignIn/src/index.ts"],
+      "@diary-app/SignUp": ["libs/web/auth/SignUp/src/index.ts"],
+      "@diary-app/auth": ["libs/web/auth/src/index.ts"],
+      "@diary-app/auth-api": ["libs/accounts/auth-api/src/index.ts"],
+      "@diary-app/shared": ["libs/web/shared/src/index.ts"],
+      "@diary-app/shared-api": ["libs/accounts/shared-api/src/index.ts"],
+      "@diary-app/test": ["test/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

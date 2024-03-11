@@ -1,0 +1,24 @@
+{
+  "name": "shared-api",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/accounts/shared-api/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/accounts/shared-api",
+        "tsConfig": "libs/accounts/shared-api/tsconfig.lib.json",
+        "packageJson": "libs/accounts/shared-api/package.json",
+        "main": "libs/accounts/shared-api/src/index.ts",
+        "assets": ["libs/accounts/shared-api/*.md"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs shared-api {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    }
+  },
+  "tags": []
+}

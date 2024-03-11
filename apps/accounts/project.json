@@ -1,0 +1,46 @@
+{
+  "name": "accounts",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/accounts/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/accounts",
+        "main": "apps/accounts/src/main.ts",
+        "tsConfig": "apps/accounts/tsconfig.app.json",
+        "assets": [
+          "apps/accounts/src/assets"
+        ],
+        "webpackConfig": "apps/accounts/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "accounts:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "accounts:build:development"
+        },
+        "production": {
+          "buildTarget": "accounts:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}
