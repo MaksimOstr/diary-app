@@ -3,9 +3,10 @@ import { ConfigModule } from '@nestjs/config'
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { Account, AuthApiModule } from '@diary-app/auth-api';
-import { AccountsController } from './accounts/accounts.controller';
-import { AuthService } from 'libs/accounts/auth-api/src/lib/auth.service';
+import { UserEntity, UserModule } from '@diary-app/user';
+import { TaskEntity } from '@diary-app/tasks-api';
+
+
 
 @Module({
   imports: [
@@ -17,12 +18,12 @@ import { AuthService } from 'libs/accounts/auth-api/src/lib/auth.service';
       username: 'admin',
       password: 'masterkey',
       database: 'diary',
-      entities: [Account],
+      entities: [UserEntity, TaskEntity],
       synchronize: true,
     }),
-    AuthApiModule
+    UserModule
   ],
-  controllers: [AppController, AccountsController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule { }

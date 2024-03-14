@@ -1,7 +1,7 @@
 {
-  "name": "shared-api",
+  "name": "tasks-api",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/accounts/shared-api/src",
+  "sourceRoot": "libs/accounts/tasks-api/src",
   "projectType": "library",
   "targets": {},
   "tags": []
