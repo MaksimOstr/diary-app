@@ -21,7 +21,9 @@
       "@diary-app/auth-api": ["libs/accounts/auth-api/src/index.ts"],
       "@diary-app/shared": ["libs/web/shared/src/index.ts"],
       "@diary-app/shared-api": ["libs/accounts/shared-api/src/index.ts"],
-      "@diary-app/test": ["test/src/index.ts"]
+      "@diary-app/tasks-api": ["libs/accounts/tasks-api/src/index.ts"],
+      "@diary-app/test": ["test/src/index.ts"],
+      "@diary-app/user": ["libs/accounts/user/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

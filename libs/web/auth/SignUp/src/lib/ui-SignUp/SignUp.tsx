@@ -12,6 +12,9 @@ import { ISignUp } from '@diary-app/shared';
 export const SignUp: React.FC = () => {
 
     const theme = useTheme()
+    
+
+
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm<ISignUp>({
         mode: 'onChange',
