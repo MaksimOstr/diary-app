@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config'
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { TaskEntity, UserEntity } from '@diary-app/shared-api';
 import { UserModule } from '@diary-app/user';
@@ -27,6 +26,6 @@ import { AuthModule } from '@diary-app/auth-api';
     AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule { }
