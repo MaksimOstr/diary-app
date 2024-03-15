@@ -1,6 +1,5 @@
-import { UserEntity } from "@diary-app/user";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-
+import { UserEntity } from "./user.entity";
 
 @Entity('tasks')
 export class TaskEntity {

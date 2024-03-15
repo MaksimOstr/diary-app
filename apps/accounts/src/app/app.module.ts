@@ -3,8 +3,10 @@ import { ConfigModule } from '@nestjs/config'
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { UserEntity, UserModule } from '@diary-app/user';
-import { TaskEntity } from '@diary-app/tasks-api';
+import { TaskEntity, UserEntity } from '@diary-app/shared-api';
+import { UserModule } from '@diary-app/user';
+import { AuthModule } from '@diary-app/auth-api';
+
 
 
 
@@ -21,7 +23,8 @@ import { TaskEntity } from '@diary-app/tasks-api';
       entities: [UserEntity, TaskEntity],
       synchronize: true,
     }),
-    UserModule
+    UserModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
