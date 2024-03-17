@@ -1,20 +1,18 @@
 import React from 'react'
 import { Box, Button, Grid, TextField, Typography, useTheme } from '@mui/material'
-import { Controller, SubmitHandler, useForm, useFormState } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { formSchema } from '../features-SignUp/schema/schema'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formBodyProps, submitButtonProps } from '../features-SignUp/styles/styles'
-import { ISignUp } from '@diary-app/shared';
-
-
-
+import { ISignUp, useSignUpMutation } from '@diary-app/shared';
+import { ErrorComponent } from '../features-SignUp/components/ErrorComponent';
+import { useNavigate } from 'react-router-dom'
 
 export const SignUp: React.FC = () => {
 
     const theme = useTheme()
-    
-
-
+    const [signUp, { isError, error }] = useSignUpMutation()
+    const navigate = useNavigate()
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm<ISignUp>({
         mode: 'onChange',
@@ -25,10 +23,11 @@ export const SignUp: React.FC = () => {
             confirmPassword: ''
         }
     })
-
-    const onSubmit: SubmitHandler<ISignUp> = (data) => {
-        console.log(data)
-        reset()
+    const onSubmit: SubmitHandler<ISignUp> = async (data) => {
+        await signUp(data)
+            .unwrap()
+                .then(payload => navigate('/SignIn'))
+                .catch(error => console.log(error))
     }
 
     return (
@@ -47,8 +46,10 @@ export const SignUp: React.FC = () => {
                 alignItems='center'
                 flexDirection='column'
             >
-                <Typography marginBottom='10%' variant='h2'>Sign Up</Typography>
+                <Typography marginBottom='5%' variant='h2'>Sign Up</Typography>
+                <ErrorComponent error={error}/>
                 <Box
+                    
                     width='100%'
                     component='form'
                     display='flex'
@@ -64,6 +65,7 @@ export const SignUp: React.FC = () => {
                                 name='username'
                                 render={({ field }) => (
                                     <TextField
+                                        autoComplete='false'
                                         fullWidth
                                         color='secondary'
                                         label='Username'
@@ -81,6 +83,7 @@ export const SignUp: React.FC = () => {
                                 name='password'
                                 render={({ field }) => (
                                     <TextField
+                                        autoComplete='false'
                                         fullWidth
                                         color='secondary'
                                         label='Password'
@@ -99,6 +102,7 @@ export const SignUp: React.FC = () => {
                                 name='confirmPassword'
                                 render={({ field }) => (
                                     <TextField
+                                        autoComplete='false'
                                         fullWidth
                                         type='password'
                                         label='Confirm password'

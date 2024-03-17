@@ -1,8 +1,9 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { SignInDto } from "./dto/signInDto";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { IToken } from "./types/types";
+import { AuthGuard } from "./guards/auth.guard";
 
 
 @ApiTags('auth')
@@ -19,6 +20,14 @@ export class AuthController {
         @Body() signInDto: SignInDto
     ): Promise<IToken>  {
         return this.authService.signIn(signInDto)
+    }
+
+    @UseGuards(AuthGuard)
+    @Get('profile')
+    getProfile(
+        @Request() req: any
+    ) {
+        return req
     }
 
 }

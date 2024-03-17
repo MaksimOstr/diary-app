@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
     JwtModule.register({
+      global: true,
       secret: jwtConfig.token.secret,
       signOptions: {
         expiresIn: jwtConfig.token.expiresIn

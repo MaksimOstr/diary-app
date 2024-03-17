@@ -55,10 +55,10 @@ export const SignIn: React.FC = () => {
             name='username'
             render={({ field }) => (
               <TextField
+                autoComplete='true'
                 fullWidth
                 color='secondary'
                 label='Username'
-                
                 onChange={(e) => field.onChange(e)}
                 value={field.value}
                 error={!!errors.username}
@@ -71,6 +71,7 @@ export const SignIn: React.FC = () => {
             name='password'
             render={({ field }) => (
               <TextField
+                autoComplete='true'
                 fullWidth
                 color='secondary'
                 label='Password'
