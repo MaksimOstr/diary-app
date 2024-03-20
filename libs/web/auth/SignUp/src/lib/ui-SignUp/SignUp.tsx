@@ -4,14 +4,14 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { formSchema } from '../features-SignUp/schema/schema'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formBodyProps, submitButtonProps } from '../features-SignUp/styles/styles'
-import { ISignUp, useSignUpMutation } from '@diary-app/shared';
-import { ErrorComponent } from '../features-SignUp/components/ErrorComponent';
+import { ErrorComponent, ISignUp, IUserReq, useSignUpMutation } from '@diary-app/shared';
 import { useNavigate } from 'react-router-dom'
+
 
 export const SignUp: React.FC = () => {
 
     const theme = useTheme()
-    const [signUp, { isError, error }] = useSignUpMutation()
+    const [signUp, { error }] = useSignUpMutation()
     const navigate = useNavigate()
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm<ISignUp>({
@@ -23,11 +23,12 @@ export const SignUp: React.FC = () => {
             confirmPassword: ''
         }
     })
-    const onSubmit: SubmitHandler<ISignUp> = async (data) => {
+    const onSubmit: SubmitHandler<IUserReq> = async (data): Promise<void> => {
         await signUp(data)
             .unwrap()
-                .then(payload => navigate('/SignIn'))
-                .catch(error => console.log(error))
+            .then(() => navigate('/SignIn'))
+            .catch(error => console.log(error))
+        reset()
     }
 
     return (
@@ -49,7 +50,7 @@ export const SignUp: React.FC = () => {
                 <Typography marginBottom='5%' variant='h2'>Sign Up</Typography>
                 <ErrorComponent error={error}/>
                 <Box
-                    
+
                     width='100%'
                     component='form'
                     display='flex'

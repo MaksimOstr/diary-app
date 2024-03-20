@@ -1,0 +1,8 @@
+{
+  "name": "shared-backend",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/backend/shared/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}

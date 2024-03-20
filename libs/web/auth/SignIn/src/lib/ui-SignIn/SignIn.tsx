@@ -4,12 +4,15 @@ import { Controller, SubmitHandler, useForm, useFormState } from 'react-hook-for
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formBodyProps, submitButtonProps } from '../features-SignIn/styles/styles';
 import { formSchema } from '../features-SignIn/schema/schema';
-import { ISignIn } from '@diary-app/shared';
+import { ErrorComponent, IUserReq, useSignInMutation } from '@diary-app/shared';
+import { useNavigate } from 'react-router-dom'
 
 export const SignIn: React.FC = () => {
 
   const theme = useTheme()
-  const { control, handleSubmit, reset, formState: { errors } } = useForm<ISignIn>({
+  const [signIn, { error }] = useSignInMutation()
+  const navigate = useNavigate()
+  const { control, handleSubmit, reset, formState: { errors } } = useForm<IUserReq>({
     mode: 'onChange',
     resolver: yupResolver(formSchema),
     defaultValues: {
@@ -18,9 +21,11 @@ export const SignIn: React.FC = () => {
     }
   })
 
-  const onSubmit: SubmitHandler<ISignIn> = (data) => {
-    console.log(data)
-    reset()
+  const onSubmit: SubmitHandler<IUserReq> = async (data): Promise<void> => {
+    await signIn(data)
+      .unwrap()
+        .then(() => navigate('/'))
+        .catch(error => console.log(error))
   }
 
   return (
@@ -39,7 +44,8 @@ export const SignIn: React.FC = () => {
         alignItems='center'
         flexDirection='column'
       >
-        <Typography mb='10%' variant='h2'>Sign In</Typography>
+        <Typography mb='5%' variant='h2'>Sign In</Typography>
+        <ErrorComponent error={error}/>
         <Box
           width='100%'
           rowGap={3}
@@ -48,7 +54,7 @@ export const SignIn: React.FC = () => {
           flexDirection='column'
           justifyContent='center'
           alignItems='center'
-          onSubmit={ handleSubmit(onSubmit) }
+          onSubmit={handleSubmit(onSubmit)}
         >
           <Controller
             control={control}

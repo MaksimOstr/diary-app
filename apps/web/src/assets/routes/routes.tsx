@@ -1,7 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import Navigator from "./Navigator";
-import { SignIn } from "@diary-app/SignIn";
 import { SignUp } from "@diary-app/SignUp";
+import { SignIn } from "@diary-app/SignIn";
+import { ProfileLoader } from "./loaders/ProfileLoader";
+
+
+
+
 
 
 
@@ -10,7 +15,7 @@ import { SignUp } from "@diary-app/SignUp";
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigator/>
+    element: <Navigator/>,
   },
   {
     path: '/SignUp',
