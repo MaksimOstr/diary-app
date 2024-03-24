@@ -24,7 +24,6 @@ export class AuthController {
         @Res() res: Response,
         @UserAgent() agent: string
     ) {
-        console.log(agent)
         const tokens = await this.authService.login(dto, agent)
         this.setRefreshTokenToCookies(tokens, res)
     }
@@ -35,9 +34,6 @@ export class AuthController {
         @Res() res: Response,
         @UserAgent() agent: string
     ) {
-        if (!refreshToken) {
-            throw new UnauthorizedException()
-        }
         const tokens = await this.authService.refreshTokens(refreshToken, agent)
         this.setRefreshTokenToCookies(tokens, res)
     }
