@@ -1,10 +1,10 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Res, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Req, Res, UnauthorizedException } from "@nestjs/common";
 import { AuthUserReqDto } from "./dto/authUserReq.dto";
 import { AuthService } from "./auth.service";
 import { Tokens } from "./interfaces/interface";
-import { Response } from "express";
+import { Response, Request } from "express";
 import { ConfigService } from "@nestjs/config";
-import { Cookie } from "shared-backend";
+import { Cookie, UserAgent } from "shared-backend";
 
 @Controller('auth')
 export class AuthController {
@@ -21,21 +21,24 @@ export class AuthController {
     @Post('login')
     async login(
         @Body() dto: AuthUserReqDto,
-        @Res() res: Response
+        @Res() res: Response,
+        @UserAgent() agent: string
     ) {
-        const tokens = await this.authService.login(dto)
+        console.log(agent)
+        const tokens = await this.authService.login(dto, agent)
         this.setRefreshTokenToCookies(tokens, res)
     }
 
     @Get('refresh')
     async refreshTokens(
         @Cookie('refreshToken') refreshToken: string,
-        @Res() res: Response
+        @Res() res: Response,
+        @UserAgent() agent: string
     ) {
         if (!refreshToken) {
             throw new UnauthorizedException()
         }
-        const tokens = await this.authService.refreshTokens(refreshToken)
+        const tokens = await this.authService.refreshTokens(refreshToken, agent)
         this.setRefreshTokenToCookies(tokens, res)
     }
 

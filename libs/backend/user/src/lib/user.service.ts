@@ -1,5 +1,5 @@
 import { PrismaService } from "@diary-app/prisma";
-import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { User } from "@prisma/client";
 import * as bcrypt from 'bcrypt'
 
@@ -21,14 +21,14 @@ export class UserService {
         })
     }
 
-    async findOne(param: string) {
+    async findOne(param: string): Promise<User> {
         const user = await this.prismaService.user.findFirst({
             where: {
                 OR: [{ username: param }, { id: param }, { id: param }]
             }
         })
         if(!user) {
-            throw new ForbiddenException()
+            throw new UnauthorizedException()
         }
         return user
     }
