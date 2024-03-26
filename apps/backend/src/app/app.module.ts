@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config'
 import { AppController } from './app.controller';
 import { UserModule } from '@diary-app/user';
 import { PrismaModule } from '@diary-app/prisma';
-import { AuthModule, JwtAuthGuard } from 'auth-api';
+import { AuthModule, JwtAuthGuard, RolesGuard } from 'auth-api';
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({
@@ -18,7 +18,7 @@ import { APP_GUARD } from '@nestjs/core';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard
-    }
+    },
   ],
 })
 export class AppModule { }

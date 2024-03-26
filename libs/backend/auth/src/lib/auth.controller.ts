@@ -1,12 +1,14 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, HttpStatus, Post, Res, UnauthorizedException, UseInterceptors } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpStatus, Post, Res, UnauthorizedException, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthUserReqDto } from "./dto/authUserReq.dto";
 import { AuthService } from "./auth.service";
 import { Tokens } from "./interfaces/interface";
 import { Response } from "express";
 import { ConfigService } from "@nestjs/config";
-import { Cookie, Public, UserAgent } from "shared-backend";
-import { User } from "@prisma/client";
-import { UserResponse } from "@diary-app/user";
+import { Cookie, CurrentUser, JwtPayload, Public, Roles, UserAgent } from "shared-backend";
+import { Role, User } from "@prisma/client";
+import { UserResponse } from "shared-backend";
+
+
 
 @Public()
 @Controller('auth')
@@ -41,6 +43,22 @@ export class AuthController {
     ) {
         const tokens = await this.authService.refreshTokens(refreshToken, agent)
         this.setRefreshTokenToCookies(tokens, res)
+    }
+
+    @Get('logout')
+    async logout(
+        @Cookie('refreshToken') refreshToken: string,
+        @Res() res: Response
+    ) {
+        await this.authService.deleteRefreshToken(refreshToken)
+        res.cookie('refreshToken', '', { httpOnly: true, secure: true, expires: new Date() })
+        res.sendStatus(HttpStatus.OK)
+    }
+
+    @Roles(Role.ADMIN)
+    @Get()
+    me(@CurrentUser() user: JwtPayload) {
+        return user
     }
 
     private setRefreshTokenToCookies(tokens: Tokens, res: Response) {

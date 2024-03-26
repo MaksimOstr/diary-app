@@ -1,13 +1,18 @@
 import { PrismaService } from "@diary-app/prisma";
-import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { CACHE_MANAGER } from "@nestjs/cache-manager";
+import { BadRequestException, ForbiddenException, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Role, User } from "@prisma/client";
 import * as bcrypt from 'bcrypt'
 import { JwtPayload } from "shared-backend";
+import { Cache } from 'cache-manager'
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class UserService {
     constructor(
-        private readonly prismaService: PrismaService
+        private readonly configService: ConfigService,
+        private readonly prismaService: PrismaService,
+        @Inject(CACHE_MANAGER) private cacheManager: Cache
     ) { }
 
     save(user: Partial<User>): Promise<User> {
@@ -22,12 +27,27 @@ export class UserService {
         })
     }
 
-    async findOne(param: string): Promise<User | null> {
-        const user = await this.prismaService.user.findFirst({
-            where: {
-                OR: [{ username: param }, { id: param }]
-            }
-        })
+    async findOne(param: string, isReset = false): Promise<User | null> {
+        if (isReset) {
+            await this.cacheManager.del(param)
+        }
+
+        const user = await this.cacheManager.get<User>(param)
+
+        if (!user) {
+            console.log(this.configService.get('CACHE_EXP'))
+            const user = await this.prismaService.user.findFirst({
+                where: {
+                    OR: [{ username: param }, { id: param }]
+                }
+            })
+
+            if (!user) return null
+            
+            console.log('dspdfssf')
+            await this.cacheManager.set(param, user, this.configService.get('CACHE_EXP'))
+            return user
+        }
         return user
     }
 

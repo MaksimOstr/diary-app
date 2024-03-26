@@ -30,7 +30,7 @@ export class AuthService {
     }
 
     async login(dto: AuthUserReqDto, agent: string): Promise<Tokens> {
-        const user = await this.userService.findOne(dto.username).catch(error => {
+        const user = await this.userService.findOne(dto.username, true).catch(error => {
             this.logger.error(error)
             return null
         })
@@ -59,7 +59,7 @@ export class AuthService {
             },
         });
         const token = _token ? _token.token : ''
-        
+
         return await this.prismaService.token.upsert({
             where: { token },
             update: {
@@ -76,7 +76,7 @@ export class AuthService {
     }
 
     async refreshTokens(refreshToken: string, agent: string): Promise<Tokens> {
-        if(!refreshToken) throw new UnauthorizedException()
+        if (!refreshToken) throw new UnauthorizedException()
 
         const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
 
@@ -84,9 +84,15 @@ export class AuthService {
             throw new UnauthorizedException();
         }
         const user = await this.userService.findOne(token.userId);
-        
-        if(!user) throw new UnauthorizedException()
+
+        if (!user) throw new UnauthorizedException()
 
         return this.generateTokens(user, agent);
+    }
+
+    deleteRefreshToken(token: string) {
+        return this.prismaService.token.delete({ 
+            where: { token }
+         })
     }
 }

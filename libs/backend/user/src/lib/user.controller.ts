@@ -1,8 +1,9 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, ForbiddenException, Get, Param, ParseUUIDPipe, Post, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, ParseUUIDPipe, Post, UseGuards, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { User } from "@prisma/client";
-import { UserResponse } from "./responses/user.response";
 import { CurrentUser, JwtPayload } from "shared-backend";
+
+
 
 @Controller('user')
 export class UserController {
@@ -14,6 +15,7 @@ export class UserController {
     createUser(@Body() dto: any): Promise<User> {
         return this.userService.save(dto)
     }
+
 
     @UseInterceptors(ClassSerializerInterceptor)
     @Get(':idOrUsername')
