@@ -2,6 +2,7 @@ import { Body, ClassSerializerInterceptor, Controller, Delete, ForbiddenExceptio
 import { UserService } from "./user.service";
 import { User } from "@prisma/client";
 import { UserResponse } from "./responses/user.response";
+import { CurrentUser, JwtPayload } from "shared-backend";
 
 @Controller('user')
 export class UserController {
@@ -21,7 +22,10 @@ export class UserController {
     }
 
     @Delete(':id')
-    async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
-        return await this.userService.delete(id)
+    async deleteUser(
+        @Param('id', ParseUUIDPipe) id: string,
+        @CurrentUser() user: JwtPayload
+    ) {
+        return await this.userService.delete(id, user)
     }
 }
