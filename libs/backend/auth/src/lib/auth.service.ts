@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
+import { ConflictException, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { AuthUserReqDto } from "./dto/authUserReq.dto";
 import { UserService } from "@diary-app/user";
 import { Tokens } from "./interfaces/interface";
@@ -20,19 +20,13 @@ export class AuthService {
 
     }
 
-    async register(dto: AuthUserReqDto) {
-        const user = await this.userService.findOne(dto.username).catch(error => {
-            this.logger.error(error)
-            return null
-        })
+    async register(dto: AuthUserReqDto): Promise<User> {
+        const user = await this.userService.findOne(dto.username)
         if (user) {
             throw new ConflictException('User already exists!')
         }
 
-        return this.userService.save(dto).catch(error => {
-            this.logger.error(error)
-            throw new BadRequestException('This user already exists!')
-        })
+        return this.userService.save(dto)
     }
 
     async login(dto: AuthUserReqDto, agent: string): Promise<Tokens> {
@@ -90,6 +84,9 @@ export class AuthService {
             throw new UnauthorizedException();
         }
         const user = await this.userService.findOne(token.userId);
+        
+        if(!user) throw new UnauthorizedException()
+
         return this.generateTokens(user, agent);
     }
 }

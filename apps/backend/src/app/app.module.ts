@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config'
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from '@diary-app/user';
 import { PrismaModule } from '@diary-app/prisma';
-import { AuthModule } from 'auth-api';
+import { AuthModule, JwtAuthGuard } from 'auth-api';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -13,7 +13,12 @@ import { AuthModule } from 'auth-api';
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true })
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard
+    }
+  ],
 })
 export class AppModule { }

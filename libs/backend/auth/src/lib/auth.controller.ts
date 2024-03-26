@@ -1,11 +1,14 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Req, Res, UnauthorizedException } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpStatus, Post, Res, UnauthorizedException, UseInterceptors } from "@nestjs/common";
 import { AuthUserReqDto } from "./dto/authUserReq.dto";
 import { AuthService } from "./auth.service";
 import { Tokens } from "./interfaces/interface";
-import { Response, Request } from "express";
+import { Response } from "express";
 import { ConfigService } from "@nestjs/config";
-import { Cookie, UserAgent } from "shared-backend";
+import { Cookie, Public, UserAgent } from "shared-backend";
+import { User } from "@prisma/client";
+import { UserResponse } from "@diary-app/user";
 
+@Public()
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -13,9 +16,11 @@ export class AuthController {
         private readonly configService: ConfigService
     ) { }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Post('register')
-    async register(@Body() dto: AuthUserReqDto) {
-        return await this.authService.register(dto)
+    async register(@Body() dto: AuthUserReqDto): Promise<User> {
+        const user = await this.authService.register(dto)
+        return new UserResponse(user)
     }
 
     @Post('login')

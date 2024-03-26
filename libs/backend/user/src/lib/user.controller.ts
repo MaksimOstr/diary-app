@@ -1,5 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Delete, ForbiddenException, Get, Param, ParseUUIDPipe, Post, UseGuards, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
+import { User } from "@prisma/client";
+import { UserResponse } from "./responses/user.response";
 
 @Controller('user')
 export class UserController {
@@ -8,17 +10,18 @@ export class UserController {
     ) { }
 
     @Post('')
-    createUser(@Body() dto: any) {
+    createUser(@Body() dto: any): Promise<User> {
         return this.userService.save(dto)
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get(':idOrUsername')
-    findOneUser(@Param('idOrUsername') idOrUsername: string) {
+    findOneUser(@Param('idOrUsername') idOrUsername: string): Promise<User | null> {
         return this.userService.findOne(idOrUsername)
     }
 
     @Delete(':id')
-    deleteUser(@Param('id', ParseUUIDPipe) id: string) {
-        return this.userService.delete(id)
+    async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
+        return await this.userService.delete(id)
     }
 }
