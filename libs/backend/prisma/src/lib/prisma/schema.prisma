@@ -18,7 +18,7 @@ model User {
   updatedAt DateTime  @updatedAt @map("updated_at")
   roles     Role[]
   Token     Token[]
-
+  
   @@map("users")
 }
 
@@ -36,3 +36,4 @@ enum Role {
   ADMIN
   USER
 }
+

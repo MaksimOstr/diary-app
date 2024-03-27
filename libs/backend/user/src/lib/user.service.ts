@@ -43,7 +43,7 @@ export class UserService {
             })
 
             if (!user) return null
-            
+
             console.log('dspdfssf')
             await this.cacheManager.set(param, user, this.configService.get('CACHE_EXP'))
             return user
@@ -51,10 +51,14 @@ export class UserService {
         return user
     }
 
-    delete(id: string, user: JwtPayload) {
+    async delete(id: string, user: JwtPayload) {
         if (user.id !== id && !user.roles.includes(Role.ADMIN)) {
             throw new ForbiddenException()
         }
+        await Promise.all([
+            this.cacheManager.del(id),
+            this.cacheManager.del(user.username)
+        ])
         return this.prismaService.user.delete({
             where: { id }, select: { id: true }
         })

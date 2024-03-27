@@ -79,7 +79,7 @@ export class AuthService {
         if (!refreshToken) throw new UnauthorizedException()
 
         const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
-
+        console.log(new Date(token.exp))
         if (!token || new Date(token.exp) < new Date()) {
             throw new UnauthorizedException();
         }

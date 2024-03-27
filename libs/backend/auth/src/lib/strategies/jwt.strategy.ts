@@ -18,8 +18,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             secretOrKey: configService.get('JWT_SECRET'),
         });
     }
-
     async validate(payload: JwtPayload) {
+        console.log(payload)
         const user = await this.userService.findOne(payload.id)
         
         if (!user) throw new UnauthorizedException()
