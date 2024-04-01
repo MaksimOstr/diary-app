@@ -17,6 +17,7 @@ const AuthSlice = createSlice({
         refreshToken(state, action) {
             state.isAuth = true
             state.token = action.payload
+            localStorage.setItem('token', action.payload)
         },
         fetchUser(state, action) {
             state.user = action.payload

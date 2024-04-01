@@ -4,6 +4,7 @@ import { Navigator } from "./Navigator";
 import { SignIn } from "@diary-app/SignIn";
 import { mainPageLoader } from "./loaders/ProfileLoader";
 import { SignUp } from "@diary-app/SignUp";
+import { MainPage } from "@diary-app/main";
 
 
 
@@ -12,7 +13,7 @@ import { SignUp } from "@diary-app/SignUp";
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigator/>,
+    element: <MainPage/>,
     loader: mainPageLoader
   },
   {
