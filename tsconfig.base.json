@@ -19,6 +19,7 @@
       "@diary-app/SignIn": ["libs/web/auth/SignIn/src/index.ts"],
       "@diary-app/SignUp": ["libs/web/auth/SignUp/src/index.ts"],
       "@diary-app/auth": ["libs/web/auth/src/index.ts"],
+      "@diary-app/main": ["libs/web/main/src/index.ts"],
       "@diary-app/prisma": ["libs/backend/prisma/src/index.ts"],
       "@diary-app/shared": ["libs/web/shared/src/index.ts"],
       "@diary-app/test": ["test/src/index.ts"],

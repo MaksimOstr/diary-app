@@ -4,7 +4,7 @@ import { redirect } from "react-router-dom"
 export const mainPageLoader = async () => {
     const refreshToken = await store.dispatch(authApiSlice.endpoints.refreshToken.initiate())
     const isAuth = store.getState().auth.isAuth
-    console.log(isAuth)
+    console.log(refreshToken)
     if(isAuth) {
         const fetchUser = store.dispatch(authApiSlice.endpoints.fetchUser.initiate())
         try {
