@@ -1,8 +1,0 @@
-{
-  "name": "user",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/accounts/user/src",
-  "projectType": "library",
-  "targets": {},
-  "tags": []
-}

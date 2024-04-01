@@ -1,10 +1,19 @@
-export interface ISignUp {
+export interface IUserReq {
     username: string
     password: string
-    confirmPassword: string
 }
 
-export interface ISignIn {
+export interface IUser {
+    id: string
     username: string
-    password: string
+    roles: Array<string>
 }
+
+export interface IAuthInitial {
+    user: IUser | null,
+    token: string | null,
+    isAuth: boolean
+}
+
+
+

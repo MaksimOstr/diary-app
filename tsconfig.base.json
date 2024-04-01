@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "strict": true,
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
@@ -18,12 +19,13 @@
       "@diary-app/SignIn": ["libs/web/auth/SignIn/src/index.ts"],
       "@diary-app/SignUp": ["libs/web/auth/SignUp/src/index.ts"],
       "@diary-app/auth": ["libs/web/auth/src/index.ts"],
-      "@diary-app/auth-api": ["libs/accounts/auth-api/src/index.ts"],
+      "@diary-app/main": ["libs/web/main/src/index.ts"],
+      "@diary-app/prisma": ["libs/backend/prisma/src/index.ts"],
       "@diary-app/shared": ["libs/web/shared/src/index.ts"],
-      "@diary-app/shared-api": ["libs/accounts/shared-api/src/index.ts"],
-      "@diary-app/tasks-api": ["libs/accounts/tasks-api/src/index.ts"],
       "@diary-app/test": ["test/src/index.ts"],
-      "@diary-app/user": ["libs/accounts/user/src/index.ts"]
+      "@diary-app/user": ["libs/backend/user/src/index.ts"],
+      "auth-api": ["libs/backend/auth/src/index.ts"],
+      "shared-backend": ["libs/backend/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,21 +1,20 @@
 import React from 'react'
-import { Box, Button, Grid, TextField, Typography, useTheme } from '@mui/material'
-import { Controller, SubmitHandler, useForm, useFormState } from 'react-hook-form'
+import { Box, Typography, useTheme } from '@mui/material'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { formSchema } from '../features-SignUp/schema/schema'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { formBodyProps, submitButtonProps } from '../features-SignUp/styles/styles'
-import { ISignUp } from '@diary-app/shared';
-
-
-
+import { formBodyProps } from '../features-SignUp/styles/styles'
+import { IUserReq, useRegisterMutation } from '@diary-app/shared';
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { ISignUp } from '../features-SignUp/types';
+import Form from '../features-SignUp/components/Form';
 
 export const SignUp: React.FC = () => {
 
     const theme = useTheme()
-    
-
-
-
+    const navigate = useNavigate()
+    const [register] = useRegisterMutation()
     const { control, handleSubmit, reset, formState: { errors } } = useForm<ISignUp>({
         mode: 'onChange',
         resolver: yupResolver(formSchema),
@@ -25,9 +24,12 @@ export const SignUp: React.FC = () => {
             confirmPassword: ''
         }
     })
-
-    const onSubmit: SubmitHandler<ISignUp> = (data) => {
-        console.log(data)
+    const onSubmit: SubmitHandler<IUserReq> = async (data) => {
+        await register(data).unwrap()
+            .then(res => navigate('/SignIn'))
+            .catch(error => {
+                toast.error(error.data.message)
+            })
         reset()
     }
 
@@ -47,73 +49,8 @@ export const SignUp: React.FC = () => {
                 alignItems='center'
                 flexDirection='column'
             >
-                <Typography marginBottom='10%' variant='h2'>Sign Up</Typography>
-                <Box
-                    width='100%'
-                    component='form'
-                    display='flex'
-                    flexDirection='column'
-                    justifyContent='center'
-                    alignItems='center'
-                    onSubmit={handleSubmit(onSubmit)}
-                >
-                    <Grid container width='100%' spacing={2} display='flex' alignItems='center' justifyContent='center'>
-                        <Grid item xs={12}>
-                            <Controller
-                                control={control}
-                                name='username'
-                                render={({ field }) => (
-                                    <TextField
-                                        fullWidth
-                                        color='secondary'
-                                        label='Username'
-                                        onChange={(e) => field.onChange(e)}
-                                        value={field.value}
-                                        error={!!errors.username}
-                                        helperText={errors.username?.message}
-                                    />
-                                )}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Controller
-                                control={control}
-                                name='password'
-                                render={({ field }) => (
-                                    <TextField
-                                        fullWidth
-                                        color='secondary'
-                                        label='Password'
-                                        type='password'
-                                        error={!!errors.password}
-                                        onChange={(e) => field.onChange(e)}
-                                        value={field.value}
-                                        helperText={errors.password?.message}
-                                    />
-                                )}
-                            />
-                        </Grid>
-                        <Grid item xs={6}  >
-                            <Controller
-                                control={control}
-                                name='confirmPassword'
-                                render={({ field }) => (
-                                    <TextField
-                                        fullWidth
-                                        type='password'
-                                        label='Confirm password'
-                                        color='secondary'
-                                        error={!!errors.confirmPassword}
-                                        onChange={(e) => field.onChange(e)}
-                                        value={field.value}
-                                        helperText={errors.confirmPassword?.message}
-                                    />
-                                )}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Button type='submit' color="secondary" variant="outlined" sx={submitButtonProps}>Sign Up</Button>
-                </Box>
+                <Typography mb={6} variant='h2'>Sign Up</Typography>
+                <Form submit={handleSubmit} control={control} errors={errors} onSubmit={onSubmit} />
             </Box>
         </Box >
     )

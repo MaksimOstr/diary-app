@@ -1,8 +1,0 @@
-{
-  "name": "tasks-api",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/accounts/tasks-api/src",
-  "projectType": "library",
-  "targets": {},
-  "tags": []
-}
