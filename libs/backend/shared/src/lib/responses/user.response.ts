@@ -1,4 +1,4 @@
-import { $Enums, User } from "@prisma/client";
+import { $Enums, User } from '@prisma/client'
 import { Exclude } from 'class-transformer'
 
 export class UserResponse implements User {
