@@ -1,7 +1,7 @@
 trigger:
-  - main
+  - master
 pr:
-  - main
+  - master
 
 variables:
   CI: 'true'
@@ -11,7 +11,7 @@ variables:
     NX_BRANCH: $(Build.SourceBranchName)
 
 jobs:
-  - job: main
+  - job: master
     pool:
       vmImage: 'ubuntu-latest'
     steps:
