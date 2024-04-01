@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { AuthUserReqDto } from "./dto/authUserReq.dto";
 import { UserService } from "@diary-app/user";
 import { Tokens } from "./interfaces/interface";
@@ -23,7 +23,7 @@ export class AuthService {
     async register(dto: AuthUserReqDto): Promise<User> {
         const user = await this.userService.findOne(dto.username)
         if (user) {
-            throw new ConflictException('User already exists!')
+            throw new BadRequestException('User already exists!')
         }
 
         return this.userService.save(dto)
@@ -41,7 +41,6 @@ export class AuthService {
 
     private async generateTokens(user: User, agent: string): Promise<Tokens> {
         const accessToken =
-            'Bearer ' +
             this.jwtService.sign({
                 id: user.id,
                 username: user.username,
@@ -79,7 +78,6 @@ export class AuthService {
         if (!refreshToken) throw new UnauthorizedException()
 
         const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
-        console.log(new Date(token.exp))
         if (!token || new Date(token.exp) < new Date()) {
             throw new UnauthorizedException();
         }

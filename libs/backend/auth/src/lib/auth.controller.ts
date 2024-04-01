@@ -7,10 +7,11 @@ import { ConfigService } from "@nestjs/config";
 import { Cookie, CurrentUser, JwtPayload, Public, Roles, UserAgent } from "shared-backend";
 import { Role, User } from "@prisma/client";
 import { UserResponse } from "shared-backend";
+import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 
 
 
-@Public()
+
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -18,6 +19,7 @@ export class AuthController {
         private readonly configService: ConfigService
     ) { }
 
+    @Public()
     @UseInterceptors(ClassSerializerInterceptor)
     @Post('register')
     async register(@Body() dto: AuthUserReqDto): Promise<User> {
@@ -25,6 +27,7 @@ export class AuthController {
         return new UserResponse(user)
     }
 
+    @Public()
     @Post('login')
     async login(
         @Body() dto: AuthUserReqDto,
@@ -33,17 +36,21 @@ export class AuthController {
     ) {
         const tokens = await this.authService.login(dto, agent)
         this.setRefreshTokenToCookies(tokens, res)
+        return tokens
     }
 
+    @Public()
     @Get('refresh')
     async refreshTokens(
         @Cookie('refreshToken') refreshToken: string,
         @Res() res: Response,
         @UserAgent() agent: string
     ) {
+        console.log(refreshToken)
         const tokens = await this.authService.refreshTokens(refreshToken, agent)
         this.setRefreshTokenToCookies(tokens, res)
     }
+
 
     @Get('logout')
     async logout(
@@ -55,9 +62,10 @@ export class AuthController {
         res.sendStatus(HttpStatus.OK)
     }
 
-    @Roles(Role.ADMIN)
-    @Get()
-    me(@CurrentUser() user: JwtPayload) {
+    
+    @Get('profile')
+    getProfile(@CurrentUser() user: JwtPayload) {
+        console.log(user)
         return user
     }
 
@@ -67,11 +75,11 @@ export class AuthController {
         }
         res.cookie('refreshToken', tokens.refreshToken.token, {
             httpOnly: true,
-            sameSite: 'lax',
+            sameSite: 'none',
             expires: new Date(tokens.refreshToken.exp),
-            secure: this.configService.get('NODE_ENV', 'development') === 'production',
-            path: '/'
+            path: '/',
+            secure: true
         })
-        res.status(HttpStatus.CREATED).json({ access_token: tokens.accessToken })
+        res.status(HttpStatus.CREATED).json(tokens.accessToken)
     }
 }

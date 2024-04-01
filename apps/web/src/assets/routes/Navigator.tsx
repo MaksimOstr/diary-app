@@ -1,15 +1,20 @@
-import { Box } from '@mui/material'
-import React from 'react'
+import { useAppSelector } from '@diary-app/shared'
+import { Box, Button } from '@mui/material'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-function Navigator() {
+
+export function Navigator() {
+  const { isAuth, user } = useAppSelector(state => state.auth)
+
+
   return (
     <Box>
-        <Link to='SignUp'>to SingUp</Link>
-        <Link to='SignIn'>to SingIn</Link>
+      <Box>{user?.username}</Box>
+      <Link to='SignUp'>to SingUp</Link>
+      <Link to='SignIn'>to SingIn</Link>
     </Box>
   )
 }
 
-export default Navigator
-    
+

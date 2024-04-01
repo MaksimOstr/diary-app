@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Button, TextField, Typography, useTheme } from '@mui/material'
-import { Controller, SubmitHandler, useForm, useFormState } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formBodyProps, submitButtonProps } from '../features-SignIn/styles/styles';
 import { formSchema } from '../features-SignIn/schema/schema';
-import { ErrorComponent, IUserReq, useSignInMutation } from '@diary-app/shared';
-import { useNavigate } from 'react-router-dom'
+import { IUserReq, useAppDispatch, useLoginMutation } from '@diary-app/shared';
+import { useNavigate, Link } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import Form from '../features-SignIn/components/Form';
+
 
 export const SignIn: React.FC = () => {
 
   const theme = useTheme()
-  const [signIn, { error }] = useSignInMutation()
   const navigate = useNavigate()
+  const [login] = useLoginMutation()
   const { control, handleSubmit, reset, formState: { errors } } = useForm<IUserReq>({
     mode: 'onChange',
     resolver: yupResolver(formSchema),
@@ -21,11 +24,14 @@ export const SignIn: React.FC = () => {
     }
   })
 
-  const onSubmit: SubmitHandler<IUserReq> = async (data): Promise<void> => {
-    await signIn(data)
-      .unwrap()
-        .then(() => navigate('/'))
-        .catch(error => console.log(error))
+  const onSubmit: SubmitHandler<IUserReq> = async (data) => {
+    const res = await login(data).unwrap()
+      .then(res => {
+        toast.success(`Authorization is successful! Hello ${data.username}!`)
+        navigate('/')
+      })
+      .catch(err => toast.error(err.data.message))
+      reset()
   }
 
   return (
@@ -38,59 +44,15 @@ export const SignIn: React.FC = () => {
       alignItems='center'
     >
       <Box
-        sx={ formBodyProps }
+        sx={formBodyProps}
         display='flex'
         justifyContent='center'
         alignItems='center'
         flexDirection='column'
       >
-        <Typography mb='5%' variant='h2'>Sign In</Typography>
-        <ErrorComponent error={error}/>
-        <Box
-          width='100%'
-          rowGap={3}
-          component='form'
-          display='flex'
-          flexDirection='column'
-          justifyContent='center'
-          alignItems='center'
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Controller
-            control={control}
-            name='username'
-            render={({ field }) => (
-              <TextField
-                autoComplete='true'
-                fullWidth
-                color='secondary'
-                label='Username'
-                onChange={(e) => field.onChange(e)}
-                value={field.value}
-                error={!!errors.username}
-                helperText={errors.username?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name='password'
-            render={({ field }) => (
-              <TextField
-                autoComplete='true'
-                fullWidth
-                color='secondary'
-                label='Password'
-                type='password'
-                error={!!errors.password}
-                onChange={(e) => field.onChange(e)}
-                value={field.value}
-                helperText={errors.password?.message}
-              />
-            )}
-          />
-          <Button type='submit' color="secondary" variant="outlined" sx={ submitButtonProps }>Sign Ip</Button>
-        </Box>
+        <Typography mb={2} variant='h2'>Sign In</Typography>
+        <Typography mb={6} variant='h6'>Still don't have an account? <Link to='/SignUp'>SignUp</Link></Typography>
+        <Form onSubmit={onSubmit} control={control} errors={errors} submit={handleSubmit} />
       </Box>
     </Box >
   )

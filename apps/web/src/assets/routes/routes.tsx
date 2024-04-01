@@ -1,12 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import Navigator from "./Navigator";
-import { SignUp } from "@diary-app/SignUp";
+import { Navigator } from "./Navigator";
+
 import { SignIn } from "@diary-app/SignIn";
-import { ProfileLoader } from "./loaders/ProfileLoader";
-
-
-
-
+import { mainPageLoader } from "./loaders/ProfileLoader";
+import { SignUp } from "@diary-app/SignUp";
 
 
 
@@ -16,6 +13,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <Navigator/>,
+    loader: mainPageLoader
   },
   {
     path: '/SignUp',
@@ -23,6 +21,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '/SignIn',
-    element: <SignIn/>
+    element: <SignIn />
   }
 ])

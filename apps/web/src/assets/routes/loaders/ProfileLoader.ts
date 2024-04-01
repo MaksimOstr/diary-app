@@ -1,13 +1,22 @@
+import { authApiSlice, store } from "@diary-app/shared"
+import { redirect } from "react-router-dom"
 
-
-export const ProfileLoader = async () => {
-    await fetch('http://localhost:3000/api/auth/profile')
-        .then(res => console.log(res))
-        .catch(error => {
-            if(error) {
-                console.log(error)
-                return null
-            }
-        })
+export const mainPageLoader = async () => {
+    const refreshToken = await store.dispatch(authApiSlice.endpoints.refreshToken.initiate())
+    const isAuth = store.getState().auth.isAuth
+    console.log(isAuth)
+    if(isAuth) {
+        const fetchUser = store.dispatch(authApiSlice.endpoints.fetchUser.initiate())
+        try {
+            const response = await fetchUser.unwrap()
+            console.log(response)
+            return response
+        } catch (error) {
+            return redirect('/SignIn')
+        } finally {
+            fetchUser.unsubscribe()
+        }
+    } else {
         return null
+    }
 }
