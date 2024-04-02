@@ -25,7 +25,7 @@ export const SignIn: React.FC = () => {
   })
 
   const onSubmit: SubmitHandler<IUserReq> = async (data) => {
-    const res = await login(data).unwrap()
+    await login(data).unwrap()
       .then(res => {
         toast.success(`Authorization is successful! Hello ${data.username}!`)
         navigate('/')
@@ -36,7 +36,7 @@ export const SignIn: React.FC = () => {
 
   return (
     <Box
-      sx={{ backgroundColor: theme.palette.background.default }}
+      sx={{ backgroundColor: theme.palette.primary.dark }}
       width='100vw'
       height='100vh'
       display='flex'

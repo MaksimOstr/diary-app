@@ -62,7 +62,7 @@ export class AuthController {
         res.sendStatus(HttpStatus.OK)
     }
 
-    
+
     @Get('profile')
     getProfile(@CurrentUser() user: JwtPayload) {
         console.log(user)

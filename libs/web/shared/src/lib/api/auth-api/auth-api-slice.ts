@@ -22,6 +22,7 @@ export const authApiSlice = authApi.injectEndpoints({
                     const { data } = await api.queryFulfilled
                     console.log(data)
                     api.dispatch(login(data))
+                    localStorage.setItem('token', data)
                 } catch (err) {
                     console.log(err)
                 }
@@ -44,9 +45,15 @@ export const authApiSlice = authApi.injectEndpoints({
                 const { data } = await api.queryFulfilled
                 api.dispatch(fetchUser(data))
             }
+        }),
+        logout: builder.mutation<void, void>({
+            query: () => ({
+                url: `auth/logout`,
+                method: 'GET',
+            }),
         })
     })
 })
 
 
-export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenQuery } = authApiSlice
+export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenQuery, useLogoutMutation } = authApiSlice

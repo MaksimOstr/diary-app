@@ -35,12 +35,12 @@ export const SignUp: React.FC = () => {
 
     return (
         <Box
-            sx={{ backgroundColor: theme.palette.background.default }}
             width='100vw'
             height='100vh'
             display='flex'
             justifyContent='center'
             alignItems='center'
+            sx={{ background: theme.palette.primary.dark }}
         >
             <Box
                 sx={formBodyProps}

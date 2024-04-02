@@ -24,7 +24,6 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                             <TextField
                                 autoComplete='false'
                                 fullWidth
-                                color='secondary'
                                 label='Username'
                                 onChange={(e) => field.onChange(e)}
                                 value={field.value}
@@ -42,7 +41,6 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                             <TextField
                                 autoComplete='false'
                                 fullWidth
-                                color='secondary'
                                 label='Password'
                                 type='password'
                                 error={!!errors.password}
@@ -63,7 +61,6 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                                 fullWidth
                                 type='password'
                                 label='Confirm password'
-                                color='secondary'
                                 error={!!errors.confirmPassword}
                                 onChange={(e) => field.onChange(e)}
                                 value={field.value}
@@ -73,7 +70,7 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                     />
                 </Grid>
             </Grid>
-            <Button type='submit' color="secondary" variant="outlined" sx={submitButtonProps}>Sign Up</Button>
+            <Button type='submit' variant="outlined" sx={submitButtonProps}>Sign Up</Button>
         </Box>
     )
 }
