@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Navigator } from "./Navigator";
+
 
 
 import { mainPageLoader } from "./loaders/ProfileLoader";

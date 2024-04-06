@@ -5,6 +5,15 @@ import { NavigateFunction } from "react-router-dom";
 
 export interface IAccountMenuProps {
     user: IUser | null
-    logout: MutationTrigger<MutationDefinition<void, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>, never, void, "api">>
+    logouta?: MutationTrigger<MutationDefinition<void, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>, never, void, "api">>
     navigate: NavigateFunction
+}
+
+export interface iCreateNewTaskFormProps {
+    open: boolean
+}
+
+export interface ICreateFormData {
+    title: string
+    description: string
 }

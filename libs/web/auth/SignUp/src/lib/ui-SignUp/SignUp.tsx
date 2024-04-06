@@ -40,16 +40,16 @@ export const SignUp: React.FC = () => {
             display='flex'
             justifyContent='center'
             alignItems='center'
-            sx={{ background: theme.palette.primary.dark }}
         >
             <Box
+                bgcolor={theme.palette.background.paper}
                 sx={formBodyProps}
                 display='flex'
                 justifyContent='center'
                 alignItems='center'
                 flexDirection='column'
             >
-                <Typography mb={6} variant='h2'>Sign Up</Typography>
+                <Typography mb={6} variant='h2' fontWeight='500'>Sign Up</Typography>
                 <Form submit={handleSubmit} control={control} errors={errors} onSubmit={onSubmit} />
             </Box>
         </Box >

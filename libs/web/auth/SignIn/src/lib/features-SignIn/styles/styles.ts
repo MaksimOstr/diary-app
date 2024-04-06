@@ -1,7 +1,6 @@
 export const formBodyProps = {
-    backgroundColor: 'white',
     width: { xl: '30%', lg: '50%', md: '50%', sm: '60%', xs: '90%' },
-    padding: { xl: '1% 2%', xs: '3% 4%' }, 
+    padding: { xl: '1% 2%', xs: '3% 4%' },
     borderRadius: '15px'
 }
 

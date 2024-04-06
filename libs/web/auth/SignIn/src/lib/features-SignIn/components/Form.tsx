@@ -21,6 +21,7 @@ const Form: React.FC<ISignInFormProps> = ({ submit, control, errors, onSubmit })
                 name='username'
                 render={({ field }) => (
                     <TextField
+                        color='secondary'
                         autoComplete='true'
                         fullWidth
                         label='Username'
@@ -36,6 +37,7 @@ const Form: React.FC<ISignInFormProps> = ({ submit, control, errors, onSubmit })
                 name='password'
                 render={({ field }) => (
                     <TextField
+                        color='secondary'
                         autoComplete='true'
                         fullWidth
                         label='Password'
@@ -47,7 +49,7 @@ const Form: React.FC<ISignInFormProps> = ({ submit, control, errors, onSubmit })
                     />
                 )}
             />
-            <Button type='submit' variant="outlined" sx={submitButtonProps}>Sign Ip</Button>
+            <Button color='secondary' type='submit' variant="outlined" sx={submitButtonProps}>Sign In</Button>
         </Box>
     )
 }

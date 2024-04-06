@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, HttpStatus, Post, Res, UnauthorizedException, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpStatus, Post, Res, UnauthorizedException, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthUserReqDto } from "./dto/authUserReq.dto";
 import { AuthService } from "./auth.service";
 import { Tokens } from "./interfaces/interface";
@@ -46,7 +46,6 @@ export class AuthController {
         @Res() res: Response,
         @UserAgent() agent: string
     ) {
-        console.log(refreshToken)
         const tokens = await this.authService.refreshTokens(refreshToken, agent)
         this.setRefreshTokenToCookies(tokens, res)
     }
@@ -58,8 +57,8 @@ export class AuthController {
         @Res() res: Response
     ) {
         await this.authService.deleteRefreshToken(refreshToken)
-        res.cookie('refreshToken', '', { httpOnly: true, secure: true, expires: new Date() })
-        res.sendStatus(HttpStatus.OK)
+        res.cookie('refreshToken', '', { httpOnly: true, secure: true })
+        return res.json(HttpStatus.OK)
     }
 
 
@@ -80,6 +79,6 @@ export class AuthController {
             path: '/',
             secure: true
         })
-        res.status(HttpStatus.CREATED).json(tokens.accessToken)
+        res.json({ access_token: tokens.accessToken })
     }
 }

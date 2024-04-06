@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAuthInitial } from "../types/types";
+import { authApiSlice } from "../api/auth-api/auth-api-slice";
 
 const AuthSlice = createSlice({
     name: 'authSlice',
@@ -9,26 +10,40 @@ const AuthSlice = createSlice({
         token: null
     } as IAuthInitial,
     reducers: {
-        login(state, action) {
-            state.token = action.payload
-            state.isAuth = true
-            localStorage.setItem('token', action.payload)
-        },
         refreshToken(state, action) {
-            state.isAuth = true
-            state.token = action.payload
             localStorage.setItem('token', action.payload)
-        },
-        fetchUser(state, action) {
-            state.user = action.payload
         },
         logout(state) {
             state.isAuth = false
-            state.token = null
             state.user = null
+            localStorage.removeItem('token')
         }
+    },
+    extraReducers: (builder) => {
+        builder.addMatcher(
+            authApiSlice.endpoints.login.matchFulfilled,
+            (state, { payload }) => {
+                state.isAuth = true
+                localStorage.setItem('token', payload.access_token)
+            }
+        )
+        builder.addMatcher(
+            authApiSlice.endpoints.fetchUser.matchFulfilled,
+            (state, { payload }) => {
+                state.user = payload
+                state.isAuth = true
+            }
+        )
+        builder.addMatcher(
+            authApiSlice.endpoints.logout.matchFulfilled,
+            (state, { payload }) => {
+                state.isAuth = false
+                state.user = null
+                localStorage.removeItem('token')
+            }
+        )
     }
 })
 
-export const { login, fetchUser, refreshToken, logout } = AuthSlice.actions
+export const { logout, refreshToken } = AuthSlice.actions
 export default AuthSlice.reducer

@@ -1,30 +1,32 @@
-import { alpha, createTheme, getContrastRatio } from "@mui/material";
+import { alpha, createTheme, getContrastRatio } from "@mui/material/styles";
 
-const violetBase = '#32013D';
-const violetMain = alpha(violetBase, 0.7);
 
 export const theme = createTheme({
     palette: {
         primary: {
-            main: '#2e0050',
-            light: '#573373',
-            dark: '#200038',
-            contrastText: '#b39ddb'
+            main: '#4a4b4e',
+            light: '#C5C6C7',
+            dark: '#0B0C10',
+            contrastText: '#00d4ae'
         },
         secondary: {
-            main: '#7b1fa2',
-            light: '#954bb4',
-            dark: '#561571',
-            contrastText: '#EDE7F6'
+            main: '#00d4ae',
+            light: '#a8eddc',
+            dark: '#00895f',
+            contrastText: '#0B0C10'
         },
         background: {
-            default: '#2e0050',
-            paper: '#d1c4e9'
-        }
+            default: '#0B0C10',
+            paper: '#3e4651'
+        },
+        text: {
+            primary: '#ffffff',
+            secondary: '#C5C6C7'
+        },
     },
     typography: {
         fontFamily: [
-            "Changa",
+            "Roboto",
             "sans-serif"
         ].join(',')
     },

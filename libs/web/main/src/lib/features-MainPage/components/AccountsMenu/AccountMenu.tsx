@@ -13,8 +13,11 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { sxProps } from './styles';
 import { IAccountMenuProps } from '../../types';
+import { useAppDispatch, useLogoutMutation } from '@diary-app/shared';
+import { toast } from 'react-toastify'
 
-const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logout, navigate }) => {
+const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logouta, navigate }) => {
+    const [logout] = useLogoutMutation()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -23,10 +26,14 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logout, navigate }) =>
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+
     const handlelogout = async () => {
         setAnchorEl(null);
-        await logout()
-        navigate(0)
+        await logout().unwrap()
+            .then(() => {
+                toast.success('You logged out from account!')
+            })
     }
     return (
         <React.Fragment>
@@ -40,7 +47,7 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logout, navigate }) =>
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 38, height: 38 }}>{user?.username[0]}</Avatar>
+                        <Avatar sx={{ width: 40, height: 40 }}>{user?.username[0]}</Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -66,7 +73,7 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logout, navigate }) =>
                     Settings
                 </MenuItem>
                 <MenuItem onClick={handlelogout}>
-                    <ListItemIcon>
+                    <ListItemIcon sx={{ color: '#dc0014' }}>
                         <Logout fontSize="small" />
                     </ListItemIcon>
                     Logout
@@ -75,4 +82,5 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logout, navigate }) =>
         </React.Fragment>
     );
 }
+
 export default AccountMenu

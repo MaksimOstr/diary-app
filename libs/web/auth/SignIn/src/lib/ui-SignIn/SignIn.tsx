@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formBodyProps, submitButtonProps } from '../features-SignIn/styles/styles';
 import { formSchema } from '../features-SignIn/schema/schema';
-import { IUserReq, useAppDispatch, useLoginMutation } from '@diary-app/shared';
+import { IUserReq, useAppDispatch, useAppSelector, useLoginMutation } from '@diary-app/shared';
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import Form from '../features-SignIn/components/Form';
@@ -24,6 +24,7 @@ export const SignIn: React.FC = () => {
     }
   })
 
+
   const onSubmit: SubmitHandler<IUserReq> = async (data) => {
     await login(data).unwrap()
       .then(res => {
@@ -31,12 +32,11 @@ export const SignIn: React.FC = () => {
         navigate('/')
       })
       .catch(err => toast.error(err.data.message))
-      reset()
+    reset()
   }
 
   return (
     <Box
-      sx={{ backgroundColor: theme.palette.primary.dark }}
       width='100vw'
       height='100vh'
       display='flex'
@@ -44,14 +44,15 @@ export const SignIn: React.FC = () => {
       alignItems='center'
     >
       <Box
+        bgcolor={theme.palette.background.paper}
         sx={formBodyProps}
         display='flex'
         justifyContent='center'
         alignItems='center'
         flexDirection='column'
       >
-        <Typography mb={2} variant='h2'>Sign In</Typography>
-        <Typography mb={6} variant='h6'>Still don't have an account? <Link to='/SignUp'>SignUp</Link></Typography>
+        <Typography mb={2} variant='h2' fontWeight='500'>Sign In</Typography>
+        <Typography mb={6} variant='body2'>Still don't have an account? <Link to='/SignUp' style={{ textDecoration: 'none', color: theme.palette.primary.contrastText }} >SignUp</Link></Typography>
         <Form onSubmit={onSubmit} control={control} errors={errors} submit={handleSubmit} />
       </Box>
     </Box >
