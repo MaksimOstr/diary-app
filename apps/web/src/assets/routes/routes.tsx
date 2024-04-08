@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-
-
-
-import { mainPageLoader } from "./loaders/ProfileLoader";
 import { SignUp } from "@diary-app/SignUp";
-import { MainPage } from "@diary-app/main";
+
 import { SignIn } from "@diary-app/SignIn";
+import mainPageLoader from "./loaders/ProfileLoader";
+import { MainPage } from "@diary-app/main";
+import { Box } from "@mui/material";
+
 
 
 
@@ -15,7 +15,13 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <MainPage />,
-    loader: mainPageLoader
+    loader: mainPageLoader,
+    children: [
+      {
+        path: '/:id',
+        element: <Box></Box>
+      }
+    ]
   },
   {
     path: '/SignUp',

@@ -31,7 +31,7 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions)
-  if (result.error && result.error.status === 401) {
+  if (result.error && result.error.status === 401 && localStorage.getItem('token')) {
     const refreshResult = await baseQuery('auth/refresh', api, extraOptions) as QueryReturnValue<IToken, FetchBaseQueryError, FetchBaseQueryMeta>
     if (refreshResult.data) {
       api.dispatch(refreshToken(refreshResult.data.access_token))
@@ -48,6 +48,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const authApi = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: builder => ({}),
-  tagTypes: ['Token']
+  tagTypes: ['Token', 'Tasks']
 })
 

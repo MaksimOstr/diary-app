@@ -5,14 +5,18 @@ import { authApiSlice } from "../api/auth-api/auth-api-slice";
 const ToggleSlice = createSlice({
     name: 'authSlice',
     initialState: {
-        createTaskIsOpen: false
+        createTask: false,
+        userInfoPage: false
     } ,
     reducers: {
-        openCreateTask(state) {
-            state.createTaskIsOpen = !state.createTaskIsOpen
-        }
+        toggleCreateTask(state) {
+            state.createTask = !state.createTask
+        },
+        toggleUserInfoPage(state) {
+            state.userInfoPage = !state.userInfoPage
+        } 
     }
 })
 
-export const { openCreateTask } = ToggleSlice.actions
+export const { toggleCreateTask, toggleUserInfoPage } = ToggleSlice.actions
 export default ToggleSlice.reducer

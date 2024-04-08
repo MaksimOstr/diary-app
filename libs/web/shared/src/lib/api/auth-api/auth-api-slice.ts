@@ -1,4 +1,4 @@
-import { IToken, IUser, IUserReq } from "../../types/types";
+import { ITask, IToken, IUser, IUserReq } from "../../types/types";
 import { authApi } from "./auth-api";
 
 export const authApiSlice = authApi.injectEndpoints({
@@ -16,7 +16,7 @@ export const authApiSlice = authApi.injectEndpoints({
                 method: 'POST',
                 body
             }),
-            invalidatesTags: ['Token']
+            invalidatesTags: ['Token', 'Tasks']
         }),
         refreshToken: builder.mutation<IToken, void>({
             query: () => `auth/refresh`,
@@ -27,10 +27,33 @@ export const authApiSlice = authApi.injectEndpoints({
             providesTags: ['Token']
         }),
         logout: builder.mutation<void, void>({
-            query: () => `auth/logout`,
+            query: () =>  `auth/logout`
+        }),
+        getTasks: builder.query<ITask[], void>({
+            query: () => `task`,
+            providesTags: (result, error, arg) =>
+                result
+                  ? [...result.map(({ id }) => ({ type: 'Tasks' as const, id })), 'Tasks']
+                  : ['Tasks'],
+        }),
+        createTask: builder.mutation({
+            query: (body) => ({
+                url: `task/create`,
+                method: 'Post',
+                body: body
+            }),
+            invalidatesTags: ['Tasks']
+        }),
+        deleteTask: builder.mutation<any, {taskId: string}>({
+            query: (body) => ({
+                url: `task`,
+                method: 'DELETE',
+                body
+            }),
+            invalidatesTags: ['Tasks']
         })
     })
 })
 
 
-export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenMutation, useLogoutMutation } = authApiSlice
+export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenMutation, useLogoutMutation, useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation } = authApiSlice

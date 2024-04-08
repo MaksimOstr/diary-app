@@ -6,18 +6,18 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { sxProps } from './styles';
 import { IAccountMenuProps } from '../../types';
-import { useAppDispatch, useLogoutMutation } from '@diary-app/shared';
+import { toggleUserInfoPage, useAppDispatch, useLogoutMutation } from '@diary-app/shared';
 import { toast } from 'react-toastify'
 
-const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logouta, navigate }) => {
+const AccountMenu: React.FC<IAccountMenuProps> = ({ user }) => {
+    
     const [logout] = useLogoutMutation()
+    const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -27,6 +27,10 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logouta, navigate }) =
         setAnchorEl(null);
     };
 
+    const handleOpenUserInfo = () => {
+        setAnchorEl(null);
+        dispatch(toggleUserInfoPage())
+    }
 
     const handlelogout = async () => {
         setAnchorEl(null);
@@ -34,20 +38,21 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logouta, navigate }) =
             .then(() => {
                 toast.success('You logged out from account!')
             })
+            .catch(error => console.log(error))
     }
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">
                     <IconButton
-                        onClick={handleClick}
+                        onClick={ handleClick }
                         size="large"
-                        sx={{ ml: 2, p: 2 }}
+                        sx={{ pr: 2 }}
                         aria-controls={open ? 'account-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 40, height: 40 }}>{user?.username[0]}</Avatar>
+                        <Avatar>{user?.username[0]}</Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -55,24 +60,24 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user, logouta, navigate }) =
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={open}
-                onClose={handleClose}
-                onClick={handleClose}
+                onClose={ handleClose }
+                onClick={ handleClose }
                 elevation={0}
                 sx={sxProps}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={ handleOpenUserInfo }>
                     <Avatar /> {user?.username}
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={ handleClose }>
                     <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>
                     Settings
                 </MenuItem>
-                <MenuItem onClick={handlelogout}>
+                <MenuItem onClick={ handlelogout }>
                     <ListItemIcon sx={{ color: '#dc0014' }}>
                         <Logout fontSize="small" />
                     </ListItemIcon>

@@ -1,4 +1,4 @@
-import { IUser } from "@diary-app/shared";
+import { ITask, IUser } from "@diary-app/shared";
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, MutationDefinition } from "@reduxjs/toolkit/query";
 import { NavigateFunction } from "react-router-dom";
@@ -16,4 +16,8 @@ export interface iCreateNewTaskFormProps {
 export interface ICreateFormData {
     title: string
     description: string
+}
+
+export interface ITaskComponentProps {
+    task: ITask[] | undefined
 }

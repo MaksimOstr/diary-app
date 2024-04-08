@@ -1,4 +1,4 @@
-import { openCreateTask, useAppDispatch, useAppSelector } from '@diary-app/shared'
+import { toggleCreateTask, useAppDispatch, useAppSelector, useCreateTaskMutation } from '@diary-app/shared'
 import { Backdrop, Box, Button, Stack, TextField, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import { bodyTaskFormProps } from './styles'
@@ -7,8 +7,9 @@ import { ICreateFormData } from '../../types';
 
 const CreateNewTaskForm = () => {
 
-    const isOpen = useAppSelector(state => state.toggler.createTaskIsOpen)
+    const isOpen = useAppSelector(state => state.toggler.createTask)
     const theme = useTheme()
+    const [create] = useCreateTaskMutation()
     const dispatch = useAppDispatch()
     const { control, handleSubmit, reset } = useForm<ICreateFormData>({
         defaultValues: {
@@ -17,8 +18,9 @@ const CreateNewTaskForm = () => {
         }
     })
     const onSubmit: SubmitHandler<ICreateFormData> = async (data) => {
-        console.log(data)
+        await create(data)
         reset()
+        dispatch(toggleCreateTask())
     }
 
 
@@ -82,7 +84,7 @@ const CreateNewTaskForm = () => {
                         <Button
                             variant='outlined'
                             color='error'
-                            onClick={ () => dispatch(openCreateTask()) }
+                            onClick={ () => dispatch(toggleCreateTask()) }
                         >Cancel</Button>
                         <Button
                             variant='outlined'

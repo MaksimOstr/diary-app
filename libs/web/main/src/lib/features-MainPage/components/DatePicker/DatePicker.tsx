@@ -9,7 +9,7 @@ function DatePicker() {
     return (
         <DesktopDatePicker
             slotProps={{
-                openPickerButton: { sx: { color: theme.palette.secondary.main } },
+                openPickerButton: { sx: { color: theme.palette.secondary.main, position: 'absolute', right: 5 } },
                 textField: {
                     variant: 'filled',
                     focused: true,

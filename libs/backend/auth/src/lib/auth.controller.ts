@@ -63,7 +63,9 @@ export class AuthController {
 
 
     @Get('profile')
-    getProfile(@CurrentUser() user: JwtPayload) {
+    getProfile(
+        @CurrentUser() user: JwtPayload
+    ) {
         console.log(user)
         return user
     }
