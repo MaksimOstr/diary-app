@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  username  String    @unique
+  id        String   @id @default(uuid())
+  username  String   @unique
   password  String
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
   roles     Role[]
   Token     Token[]
-  
+  Tasks     Task[]
+
   @@map("users")
 }
 
@@ -27,13 +28,22 @@ model Token {
   exp       DateTime
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  userAgent String @map("user-agent")
-  
+  userAgent String   @map("user-agent")
+
   @@map("tokens")
+}
+
+model Task {
+  id String @id @default(uuid())
+  title String
+  description String
+  user User @relation(fields: [userId], references: [id])
+  userId String
+
+  @@map("tasks")
 }
 
 enum Role {
   ADMIN
   USER
 }
-

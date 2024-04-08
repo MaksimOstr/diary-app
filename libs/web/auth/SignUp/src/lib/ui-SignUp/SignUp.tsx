@@ -35,7 +35,6 @@ export const SignUp: React.FC = () => {
 
     return (
         <Box
-            sx={{ backgroundColor: theme.palette.background.default }}
             width='100vw'
             height='100vh'
             display='flex'
@@ -43,13 +42,14 @@ export const SignUp: React.FC = () => {
             alignItems='center'
         >
             <Box
+                bgcolor={theme.palette.background.paper}
                 sx={formBodyProps}
                 display='flex'
                 justifyContent='center'
                 alignItems='center'
                 flexDirection='column'
             >
-                <Typography mb={6} variant='h2'>Sign Up</Typography>
+                <Typography mb={6} variant='h2' fontWeight='500'>Sign Up</Typography>
                 <Form submit={handleSubmit} control={control} errors={errors} onSubmit={onSubmit} />
             </Box>
         </Box >

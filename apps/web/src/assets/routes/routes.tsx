@@ -1,9 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Navigator } from "./Navigator";
+import { SignUp } from "@diary-app/SignUp";
 
 import { SignIn } from "@diary-app/SignIn";
-import { mainPageLoader } from "./loaders/ProfileLoader";
-import { SignUp } from "@diary-app/SignUp";
+import mainPageLoader from "./loaders/ProfileLoader";
+import { MainPage } from "@diary-app/main";
+import { Box } from "@mui/material";
+
 
 
 
@@ -12,12 +14,18 @@ import { SignUp } from "@diary-app/SignUp";
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigator/>,
-    loader: mainPageLoader
+    element: <MainPage />,
+    loader: mainPageLoader,
+    children: [
+      {
+        path: '/:id',
+        element: <Box></Box>
+      }
+    ]
   },
   {
     path: '/SignUp',
-    element: <SignUp/>
+    element: <SignUp />
   },
   {
     path: '/SignIn',

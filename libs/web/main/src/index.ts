@@ -1,1 +1,3 @@
-export * from './lib/main';
+export * from './lib/ui-MainPage/MainPage'
+
+

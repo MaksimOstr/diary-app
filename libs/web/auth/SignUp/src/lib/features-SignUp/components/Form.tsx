@@ -22,9 +22,9 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                         name='username'
                         render={({ field }) => (
                             <TextField
+                                color='secondary'
                                 autoComplete='false'
                                 fullWidth
-                                color='secondary'
                                 label='Username'
                                 onChange={(e) => field.onChange(e)}
                                 value={field.value}
@@ -40,9 +40,9 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                         name='password'
                         render={({ field }) => (
                             <TextField
+                                color='secondary'
                                 autoComplete='false'
                                 fullWidth
-                                color='secondary'
                                 label='Password'
                                 type='password'
                                 error={!!errors.password}
@@ -59,11 +59,11 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                         name='confirmPassword'
                         render={({ field }) => (
                             <TextField
+                                color='secondary'
                                 autoComplete='false'
                                 fullWidth
                                 type='password'
                                 label='Confirm password'
-                                color='secondary'
                                 error={!!errors.confirmPassword}
                                 onChange={(e) => field.onChange(e)}
                                 value={field.value}
@@ -73,7 +73,7 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                     />
                 </Grid>
             </Grid>
-            <Button type='submit' color="secondary" variant="outlined" sx={submitButtonProps}>Sign Up</Button>
+            <Button color='secondary' type='submit' variant="outlined" sx={submitButtonProps}>Sign Up</Button>
         </Box>
     )
 }

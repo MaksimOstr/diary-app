@@ -8,9 +8,20 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../../node_modules/.vite/libs/web/main',
-
+  optimizeDeps: {
+    include: [
+      '@emotion/react', 
+      '@emotion/styled', 
+      '@mui/material/Tooltip'
+    ],
+  },
   plugins: [
-    react(),
+    react({
+      jsxImportSource: '@emotion/react',
+      babel: {
+        plugins: ['@emotion/babel-plugin'],
+      },
+    }),
     nxViteTsPaths(),
     dts({
       entryRoot: 'src',

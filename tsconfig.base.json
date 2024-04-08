@@ -22,6 +22,7 @@
       "@diary-app/main": ["libs/web/main/src/index.ts"],
       "@diary-app/prisma": ["libs/backend/prisma/src/index.ts"],
       "@diary-app/shared": ["libs/web/shared/src/index.ts"],
+      "@diary-app/task": ["libs/backend/task/src/index.ts"],
       "@diary-app/test": ["test/src/index.ts"],
       "@diary-app/user": ["libs/backend/user/src/index.ts"],
       "auth-api": ["libs/backend/auth/src/index.ts"],

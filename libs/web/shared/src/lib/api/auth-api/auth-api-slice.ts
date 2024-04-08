@@ -1,5 +1,4 @@
-import { fetchUser, login, refreshToken } from "../../slices/auth-slice";
-import { IUser, IUserReq } from "../../types/types";
+import { ITask, IToken, IUser, IUserReq } from "../../types/types";
 import { authApi } from "./auth-api";
 
 export const authApiSlice = authApi.injectEndpoints({
@@ -11,42 +10,50 @@ export const authApiSlice = authApi.injectEndpoints({
                 body
             })
         }),
-        login: builder.mutation<string, IUserReq>({
+        login: builder.mutation<IToken, IUserReq>({
             query: (body) => ({
                 url: `/auth/login`,
                 method: 'POST',
                 body
             }),
-            async onQueryStarted(arg, api) {
-                try {
-                    const { data } = await api.queryFulfilled
-                    console.log(data)
-                    api.dispatch(login(data))
-                } catch (err) {
-                    console.log(err)
-                }
-            }
+            invalidatesTags: ['Token', 'Tasks']
         }),
-        refreshToken: builder.query<string, void>({
+        refreshToken: builder.mutation<IToken, void>({
             query: () => `auth/refresh`,
-            async onQueryStarted(arg, api) {
-                try {
-                    const { data } = await api.queryFulfilled
-                    api.dispatch(refreshToken(data))
-                } catch (err) {
-                    localStorage.removeItem('token')
-                }
-            }
+            invalidatesTags: ['Token']
         }),
         fetchUser: builder.query<IUser, void>({
             query: () => `auth/profile`,
-            async onQueryStarted(arg, api) {
-                const { data } = await api.queryFulfilled
-                api.dispatch(fetchUser(data))
-            }
+            providesTags: ['Token']
+        }),
+        logout: builder.mutation<void, void>({
+            query: () =>  `auth/logout`
+        }),
+        getTasks: builder.query<ITask[], void>({
+            query: () => `task`,
+            providesTags: (result, error, arg) =>
+                result
+                  ? [...result.map(({ id }) => ({ type: 'Tasks' as const, id })), 'Tasks']
+                  : ['Tasks'],
+        }),
+        createTask: builder.mutation({
+            query: (body) => ({
+                url: `task/create`,
+                method: 'Post',
+                body: body
+            }),
+            invalidatesTags: ['Tasks']
+        }),
+        deleteTask: builder.mutation<any, {taskId: string}>({
+            query: (body) => ({
+                url: `task`,
+                method: 'DELETE',
+                body
+            }),
+            invalidatesTags: ['Tasks']
         })
     })
 })
 
 
-export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenQuery } = authApiSlice
+export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenMutation, useLogoutMutation, useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation } = authApiSlice

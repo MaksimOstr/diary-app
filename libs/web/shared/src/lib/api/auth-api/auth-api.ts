@@ -3,16 +3,19 @@ import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
+  FetchBaseQueryMeta,
 } from '@reduxjs/toolkit/query'
 import { RootState } from '../../store/store'
 import { logout, refreshToken } from '../../slices/auth-slice'
+import { IToken } from '../../types/types'
+import { QueryReturnValue } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3000/api',
   credentials: 'include',
   prepareHeaders: (headers, api) => {
-    const token = (api.getState() as RootState).auth.token
+    const token = localStorage.getItem('token')
     if (token) {
       headers.set('authorization', `Bearer ${token}`)
     }
@@ -28,13 +31,13 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions)
-  if (result.error && result.error.status === 401) {
-    const refreshResult = await baseQuery('auth/refresh', api, extraOptions)
+  if (result.error && result.error.status === 401 && localStorage.getItem('token')) {
+    const refreshResult = await baseQuery('auth/refresh', api, extraOptions) as QueryReturnValue<IToken, FetchBaseQueryError, FetchBaseQueryMeta>
     if (refreshResult.data) {
-      api.dispatch(refreshToken(refreshResult.data))
+      api.dispatch(refreshToken(refreshResult.data.access_token))
       result = await baseQuery(args, api, extraOptions)
     } else {
-      localStorage.removeItem('token')
+      await baseQuery('auth/logout', api, extraOptions)
       api.dispatch(logout())
     }
   }
@@ -45,5 +48,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const authApi = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: builder => ({}),
+  tagTypes: ['Token', 'Tasks']
 })
 

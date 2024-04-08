@@ -11,8 +11,17 @@ export interface IUser {
 
 export interface IAuthInitial {
     user: IUser | null,
-    token: string | null,
     isAuth: boolean
+}
+
+export interface IToken {
+    access_token: string
+}
+
+export interface ITask {
+    id: string,
+    title: string,
+    description: string
 }
 
 

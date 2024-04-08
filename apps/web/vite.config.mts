@@ -17,7 +17,19 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [react(), nxViteTsPaths()],
+  optimizeDeps: {
+    include: [
+      '@emotion/react', 
+      '@emotion/styled', 
+      '@mui/material/Tooltip'
+    ],
+  },
+  plugins: [react({
+    jsxImportSource: '@emotion/react',
+    babel: {
+      plugins: ['@emotion/babel-plugin'],
+    },
+  }), nxViteTsPaths()],
 
   // Uncomment this if you are using workers.
   // worker: {
