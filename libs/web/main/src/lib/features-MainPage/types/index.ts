@@ -17,3 +17,8 @@ export interface iCreateNewTaskFormProps {
 export interface ITaskComponentProps {
     task?: ITask[] | undefined
 }
+
+export interface IChangeTaskPageProps {
+    data: ITask | undefined
+    id: string | undefined
+}

@@ -4,8 +4,9 @@ import React, { forwardRef, useImperativeHandle } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { InputsSection, RootSxProps } from '../styles'
+import { IChangeTaskPageProps } from '../../../../features-MainPage/types'
 
-const TaskEditForm = ({ data, id }, ref) => {
+const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) => {
 
   const navigate = useNavigate()
   const [changeTask] = useChangeTaskMutation()
@@ -86,6 +87,6 @@ const TaskEditForm = ({ data, id }, ref) => {
       </Box>
     </Box>
   )
-}
+})
 
-export default forwardRef(TaskEditForm)
+export default TaskEditForm
