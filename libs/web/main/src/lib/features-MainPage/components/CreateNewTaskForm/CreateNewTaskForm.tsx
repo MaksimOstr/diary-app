@@ -1,9 +1,9 @@
-import { toggleCreateTask, useAppDispatch, useAppSelector, useCreateTaskMutation } from '@diary-app/shared'
+import { ICreateTaskReq, toggleCreateTask, useAppDispatch, useAppSelector, useCreateTaskMutation } from '@diary-app/shared'
 import { Backdrop, Box, Button, Stack, TextField, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import { bodyTaskFormProps } from './styles'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { ICreateFormData } from '../../types';
+
 
 const CreateNewTaskForm = () => {
 
@@ -11,13 +11,13 @@ const CreateNewTaskForm = () => {
     const theme = useTheme()
     const [create] = useCreateTaskMutation()
     const dispatch = useAppDispatch()
-    const { control, handleSubmit, reset } = useForm<ICreateFormData>({
+    const { control, handleSubmit, reset } = useForm<ICreateTaskReq>({
         defaultValues: {
             description: '',
             title: ''
         }
     })
-    const onSubmit: SubmitHandler<ICreateFormData> = async (data) => {
+    const onSubmit: SubmitHandler<ICreateTaskReq> = async (data) => {
         await create(data)
         reset()
         dispatch(toggleCreateTask())

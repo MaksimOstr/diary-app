@@ -5,27 +5,28 @@ import AddIcon from '@mui/icons-material/Add';
 import { FabProps } from './styles';
 import { toggleCreateTask, useAppDispatch, useAppSelector, useGetTasksQuery } from '@diary-app/shared';
 import CreateNewTaskForm from '../features-MainPage/components/CreateNewTaskForm/CreateNewTaskForm';
-import TaskComponent from '../features-MainPage/components/TaskComponents/TaskComponent';
+import { TaskComponent } from '../features-MainPage/components/TaskComponents/TaskComponent';
 import UserProfilePage from '../features-MainPage/components/UserProfilePage/UserProfilePage';
-
+import { Outlet } from 'react-router-dom';
 
 export const MainPage: React.FC = () => {
 
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(state => state.auth.isAuth)
-const { data } = useGetTasksQuery()
+  const { data } = useGetTasksQuery()
+  
   return (
-    <Box
-    >
+    <Box>
       <TopBar />
-      { isAuth ? 
+      {isAuth ?
         <Fab onClick={() => dispatch(toggleCreateTask())} sx={FabProps.sx} color="secondary" aria-label="add">
           <AddIcon />
         </Fab> :
-        '' }
+        ''}
       <CreateNewTaskForm />
-      <UserProfilePage/>
-      {isAuth ? <TaskComponent task={data}/> : ''}
+      <UserProfilePage />
+      {isAuth ? <TaskComponent task={data} /> : ''}
+      <Outlet />
     </Box>
   )
 }

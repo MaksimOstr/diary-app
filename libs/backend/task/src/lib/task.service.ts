@@ -17,14 +17,32 @@ export class TaskService {
                 title: dto.title,
                 description: dto.description,
                 userId
-            }
+            },
+            select: { id: true, title: true, description: true }
         })
     }
 
     async getTasks(userId: string) {
          return this.prismaService.task.findMany({
-            where: { userId }
+            where: { userId },
+            select: {id: true, title: true, description: true}
          })
+    }
+
+    async getTaskById(taskId: string): Promise<Partial<Task> | null> {
+        return this.prismaService.task.findUnique({
+            where: { id: taskId },
+            select: {id: true, title: true, description: true}
+        })
+    }
+    async changeTask(taskId: string, data: CreateTaskDto) {
+        return this.prismaService.task.update({
+            where: { id: taskId },
+            data: {
+                title: data.title,
+                description: data.description
+            }
+        })
     }
 
     async deleteTask(taskId: string): Promise<Task> {

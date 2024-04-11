@@ -11,7 +11,8 @@ export interface IUser {
 
 export interface IAuthInitial {
     user: IUser | null,
-    isAuth: boolean
+    isAuth: boolean,
+    token: string | null
 }
 
 export interface IToken {
@@ -24,5 +25,14 @@ export interface ITask {
     description: string
 }
 
+export interface ICreateTaskReq {
+    title: string
+    description: string
+}
+
+export interface IChangeTaskReq {
+    taskId: string
+    taskData: ICreateTaskReq
+}
 
 

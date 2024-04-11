@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put } from "@nestjs/common";
 import { CreateTaskDto } from "./dto/createTask.dto";
 import { CurrentUser, JwtPayload } from "shared-backend";
 import { TaskService } from "./task.service";
@@ -24,6 +24,21 @@ export class TaskController {
         @CurrentUser() user: JwtPayload
     ) {
         return this.taskService.getTasks(user.id)
+    }
+
+    @Get(':id') 
+    async findTaskById(
+        @Param('id', ParseUUIDPipe) taskId: string
+    ) {
+        return this.taskService.getTaskById(taskId)
+    }
+
+    @Put(':id/change')
+    async changeTask(
+        @Param('id', ParseUUIDPipe) taskId: string,
+        @Body() data: CreateTaskDto
+    ) {
+        return this.taskService.changeTask(taskId, data)
     }
 
     @Delete()

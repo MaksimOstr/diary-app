@@ -13,11 +13,7 @@ export interface iCreateNewTaskFormProps {
     open: boolean
 }
 
-export interface ICreateFormData {
-    title: string
-    description: string
-}
 
 export interface ITaskComponentProps {
-    task: ITask[] | undefined
+    task?: ITask[] | undefined
 }

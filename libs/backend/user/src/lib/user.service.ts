@@ -38,7 +38,7 @@ export class UserService {
             console.log(this.configService.get('CACHE_EXP'))
             const user = await this.prismaService.user.findFirst({
                 where: {
-                    OR: [{ username: param }, { id: param }]
+                    OR: [{ username: param }, { id: param }],
                 }
             })
 
