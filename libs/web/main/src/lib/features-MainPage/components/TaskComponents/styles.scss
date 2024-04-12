@@ -54,10 +54,21 @@
   padding-top: 10px;
 }
 
+
+
 .buttonSection {
+  padding: 2px;
   display: flex;
-  padding: 5px;
-  justify-content: end;
+  width: 50%;
   opacity: 0;
+  justify-content: end;
+}
+
+.Date {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-left: 10px;
+  width: 50%;
 }
 

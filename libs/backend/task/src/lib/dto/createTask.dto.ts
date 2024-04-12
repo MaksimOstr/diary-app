@@ -7,12 +7,7 @@ export class CreateTaskDto {
     }
 
     @IsString()
-    @MinLength(1)
-    @IsNotEmpty()
     title: string
 
-
-    @MinLength(1)
-    @IsNotEmpty()
     description: string
 }

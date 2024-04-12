@@ -10,6 +10,7 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
 
   const navigate = useNavigate()
   const [changeTask] = useChangeTaskMutation()
+  console.log(data)
   const { control, handleSubmit, reset, getValues } = useForm<ICreateTaskReq>({
     defaultValues: {
       title: data?.title,

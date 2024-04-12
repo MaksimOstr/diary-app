@@ -18,6 +18,11 @@ const CreateNewTaskForm = () => {
         }
     })
     const onSubmit: SubmitHandler<ICreateTaskReq> = async (data) => {
+        if(data.description === "" && data.title === "") {
+            dispatch(toggleCreateTask())
+            return
+        }
+
         await create(data)
         reset()
         dispatch(toggleCreateTask())

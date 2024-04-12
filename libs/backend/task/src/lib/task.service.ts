@@ -18,21 +18,21 @@ export class TaskService {
                 description: dto.description,
                 userId
             },
-            select: { id: true, title: true, description: true }
+            select: { id: true, title: true, description: true, createdAt: true }
         })
     }
 
     async getTasks(userId: string) {
          return this.prismaService.task.findMany({
             where: { userId },
-            select: {id: true, title: true, description: true}
+            select: { id: true, title: true, description: true, createdAt: true }
          })
     }
 
     async getTaskById(taskId: string): Promise<Partial<Task> | null> {
         return this.prismaService.task.findUnique({
             where: { id: taskId },
-            select: {id: true, title: true, description: true}
+            select: { id: true, title: true, description: true, createdAt: true }
         })
     }
     async changeTask(taskId: string, data: CreateTaskDto) {

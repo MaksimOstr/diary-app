@@ -22,7 +22,8 @@ export interface IToken {
 export interface ITask {
     id: string,
     title: string,
-    description: string
+    description: string,
+    createdAt: string
 }
 
 export interface ICreateTaskReq {
