@@ -8,3 +8,12 @@ export const breakpointColumnsObj = {
 };
 
 
+export const selectColourForTask = (status: string) => {
+  switch (status) {
+    case 'NEUTRAL': return ''
+    case 'URGENT': return 'yellow'
+    case 'IMPORTANT': return 'red'
+  }
+}
+
+

@@ -1,5 +1,5 @@
 import { ICreateTaskReq, toggleCreateTask, useAppDispatch, useAppSelector, useCreateTaskMutation } from '@diary-app/shared'
-import { Backdrop, Box, Button, Stack, TextField, Typography, useTheme } from '@mui/material'
+import { Backdrop, Box, Button, MenuItem, Select, Stack, TextField, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import { bodyTaskFormProps } from './styles'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -14,11 +14,12 @@ const CreateNewTaskForm = () => {
     const { control, handleSubmit, reset } = useForm<ICreateTaskReq>({
         defaultValues: {
             description: '',
-            title: ''
+            title: '',
+            status: 'NEUTRAL'
         }
     })
     const onSubmit: SubmitHandler<ICreateTaskReq> = async (data) => {
-        if(data.description === "" && data.title === "") {
+        if (data.description === "" && data.title === "") {
             dispatch(toggleCreateTask())
             return
         }
@@ -32,11 +33,11 @@ const CreateNewTaskForm = () => {
     return (
         <Backdrop
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={ isOpen }
+            open={isOpen}
         >
             <Box
-                sx={ bodyTaskFormProps }
-                bgcolor={ theme.palette.background.paper }
+                sx={bodyTaskFormProps}
+                bgcolor={theme.palette.background.paper}
                 p='25px 40px'
             >
                 <Typography variant='h5'>Create a new task</Typography>
@@ -44,27 +45,48 @@ const CreateNewTaskForm = () => {
                     component='form'
                     width='100%'
                     mt={5}
-                    onSubmit={ handleSubmit(onSubmit) }
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     <Stack
                         spacing={4}
                     >
+                        <Box
+                            display='flex'
+                        >
+                            <Controller
+                                control={control}
+                                name='title'
+                                render={({ field }) => (
+                                    <TextField
+                                        color='secondary'
+                                        autoComplete='false'
+                                        maxRows={2}
+                                        multiline
+                                        fullWidth
+                                        label='Title'
+                                        onChange={(e) => field.onChange(e)}
+                                        value={field.value}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                control={control}
+                                name='status'
+                                render={({ field }) => (
+                                    <Select
+                                        value={field.value}
+                                        onChange={(e) =>field.onChange(e) }
+                                        sx={{ ml: 1, width: '20%' }}
+                                    >
+                                        <MenuItem value={'NEUTRAL'}>Neutral</MenuItem>
+                                        <MenuItem value={'URGENT'}>Urgent</MenuItem>
+                                        <MenuItem value={'IMPORTANT'}>Important</MenuItem>
+                                    </Select>
+                                )}
+                            />
+                        </Box>
                         <Controller
-                            control={ control }
-                            name='title'
-                            render={({ field }) => (
-                                <TextField
-                                    color='secondary'
-                                    autoComplete='false'
-                                    fullWidth
-                                    label='Title'
-                                    onChange={ (e) => field.onChange(e) }
-                                    value={ field.value }
-                                />
-                            )}
-                        />
-                        <Controller
-                            control={ control }
+                            control={control}
                             name='description'
                             render={({ field }) => (
                                 <TextField
@@ -74,8 +96,8 @@ const CreateNewTaskForm = () => {
                                     fullWidth
                                     multiline
                                     label='Description'
-                                    onChange={ (e) => field.onChange(e) }
-                                    value={ field.value }
+                                    onChange={(e) => field.onChange(e)}
+                                    value={field.value}
                                 />
                             )}
                         />
@@ -89,7 +111,7 @@ const CreateNewTaskForm = () => {
                         <Button
                             variant='outlined'
                             color='error'
-                            onClick={ () => dispatch(toggleCreateTask()) }
+                            onClick={() => dispatch(toggleCreateTask())}
                         >Cancel</Button>
                         <Button
                             variant='outlined'

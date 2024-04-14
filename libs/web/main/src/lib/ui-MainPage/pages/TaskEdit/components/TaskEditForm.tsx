@@ -1,5 +1,5 @@
 import { IChangeTaskReq, ICreateTaskReq, useChangeTaskMutation } from '@diary-app/shared'
-import { Box, Button, InputBase, TextField } from '@mui/material'
+import { Box, Button, InputBase, MenuItem, Select, TextField } from '@mui/material'
 import React, { forwardRef, useImperativeHandle } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -14,7 +14,8 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
   const { control, handleSubmit, reset, getValues } = useForm<ICreateTaskReq>({
     defaultValues: {
       title: data?.title,
-      description: data?.description
+      description: data?.description,
+      status: data?.status
     }
   })
 
@@ -24,28 +25,36 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
         taskData: getValues(),
         taskId: id
       } as IChangeTaskReq
+      if(data?.description === reqBody.taskData.description && data.title === reqBody.taskData.title && data.status === reqBody.taskData.status) {
+        navigate('/')
+        return
+      }
       await changeTask(reqBody).unwrap()
       navigate('/')
     }
   }))
 
-  const onSubmit: SubmitHandler<ICreateTaskReq> = async (data) => {
+  const onSubmit: SubmitHandler<ICreateTaskReq> = async (taskData) => {
     const reqData = {
       taskId: id,
-      taskData: data
+      taskData
     } as IChangeTaskReq
+    if(data?.description === taskData.description && data.title === taskData.title && data.status === taskData.status) {
+      navigate('/')
+      return
+    }
     await changeTask(reqData)
     navigate('/')
   }
 
   return (
     <Box
-      sx={ RootSxProps }
+      sx={RootSxProps}
       component='form'
-      onSubmit={ handleSubmit(onSubmit) }
+      onSubmit={handleSubmit(onSubmit)}
     >
       <Box
-        sx={ InputsSection }
+        sx={InputsSection}
       >
         <Controller
           control={control}
@@ -57,6 +66,7 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
               color='secondary'
               autoComplete='false'
               fullWidth
+              maxRows={4}
               multiline
               onChange={(e) => field.onChange(e)}
               value={field.value}
@@ -82,9 +92,26 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
         />
       </Box>
       <Box
+        display='flex'
+        justifyContent='space-between'
         mt={3}
       >
-        <Button size='large' type='submit' color='secondary' variant='outlined'>Submit</Button>
+          <Controller
+            control={control}
+            name='status'
+            render={({ field }) => (
+              <Select
+                sx={{ width: '30%' }}
+                onChange={(e) => field.onChange(e)}
+                value={field.value}
+              >
+                <MenuItem value={'NEUTRAL'}>Neutral</MenuItem>
+                <MenuItem value={'URGENT'}>Urgent</MenuItem>
+                <MenuItem value={'IMPORTANT'}>Important</MenuItem>
+              </Select>
+            )}
+          />
+          <Button size='large' type='submit' color='secondary' variant='outlined'>Submit</Button>
       </Box>
     </Box>
   )

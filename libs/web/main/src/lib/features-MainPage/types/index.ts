@@ -22,3 +22,8 @@ export interface IChangeTaskPageProps {
     data: ITask | undefined
     id: string | undefined
 }
+
+export interface ISearchTextFieldfProps {
+    tasks: ITask[] | undefined
+    isLoading: boolean
+}

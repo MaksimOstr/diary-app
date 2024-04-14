@@ -3,7 +3,7 @@ import { IAuthInitial } from "../types/types";
 import { authApiSlice } from "../api/auth-api/auth-api-slice";
 
 const ToggleSlice = createSlice({
-    name: 'authSlice',
+    name: 'toggleSlice',
     initialState: {
         createTask: false,
         userInfoPage: false

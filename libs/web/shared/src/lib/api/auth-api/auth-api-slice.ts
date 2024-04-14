@@ -50,7 +50,7 @@ export const authApiSlice = authApi.injectEndpoints({
                 method: 'DELETE',
                 body
             }),
-            invalidatesTags: ['Tasks']
+            invalidatesTags: (result, error, arg) => [{ type: 'Tasks', id: arg.taskId }],
         }),
         getTaskById: builder.query<ITask, string | undefined>({
             query: (taskId) => ({

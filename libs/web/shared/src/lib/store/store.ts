@@ -3,13 +3,15 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import authSlice from '../slices/auth-slice'
 import { authApi } from '../api/auth-api/auth-api'
 import toggleSlice from '../slices/toggle-slice'
+import taskSlice from '../slices/task-slice'
 
 
 export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     auth: authSlice,
-    toggler: toggleSlice
+    toggler: toggleSlice,
+    tasks: taskSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(authApi.middleware)

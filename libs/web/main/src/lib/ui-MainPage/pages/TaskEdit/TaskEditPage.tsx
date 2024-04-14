@@ -14,7 +14,7 @@ export const TaskEditPage = () => {
 
   const { id } = useParams()
   const { data, isLoading } = useGetTaskByIdQuery(id)
-  const navigate = useNavigate()
+  
 
 
   return (
