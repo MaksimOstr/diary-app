@@ -8,7 +8,7 @@ import { notLoaded } from './styles'
 
 export const TaskEditPage = () => {
 
-  const formRef = useRef<TaskFormHandle>(null!)
+  const formRef = useRef<TaskFormHandle>(null)
   const handleClose = () => formRef?.current?.onSubmit()
 
   const { id } = useParams()

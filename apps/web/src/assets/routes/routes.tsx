@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'task/create',
-        element: <CreateTaskPage/>
+        element: <CreateTaskPage/>,
       },
       {
         path: 'profile',

@@ -1,25 +1,28 @@
-import { useAppSelector } from '@diary-app/shared'
-import { Backdrop, Box, Typography, useTheme } from '@mui/material'
+import { useFetchUserQuery } from '@diary-app/shared'
+import { Dialog } from '@mui/material'
 import React from 'react'
-import { BodySxProps } from './styles'
+import HeadPaper from './components/HeadPaper/HeadPaper'
+import { useNavigate } from 'react-router-dom'
+import BodyPaper from './components/BodyPaper/BodyPaper'
+
 
 
 export const UserProfilePage = () => {
 
-    const theme = useTheme()
+    const navigate = useNavigate()
+    const { data } = useFetchUserQuery()
 
     return (
-        <Backdrop
-            open
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        >
-            <Box
-                bgcolor={theme.palette.background.paper}
-                sx={BodySxProps}
+            <Dialog
+                onClose={() => navigate('/')}
+                open
+                PaperProps={{ sx: { padding: 2, borderRadius: 4 } }}
+                fullWidth
             >
-                <Typography variant='h3'>User Profile</Typography>
-            </Box>
-        </Backdrop>
+                <HeadPaper data={data} />
+                <BodyPaper data={data} />
+                <Dialog open>test</Dialog>
+            </Dialog>
     )
 }
 

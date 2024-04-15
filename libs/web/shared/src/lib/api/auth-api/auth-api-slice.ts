@@ -52,7 +52,7 @@ export const authApiSlice = authApi.injectEndpoints({
             }),
             invalidatesTags: (result, error, arg) => [{ type: 'Tasks', id: arg.taskId }],
         }),
-        getTaskById: builder.query<ITask, string | string>({
+        getTaskById: builder.query<ITask, string | undefined>({
             query: (taskId) => ({
                 url: `task/${taskId}`,
                 method: 'GET',

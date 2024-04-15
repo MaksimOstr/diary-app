@@ -13,6 +13,7 @@ import { sxProps } from './styles';
 import { IAccountMenuProps } from '../../types';
 import { useAppDispatch, useLogoutMutation } from '@diary-app/shared';
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom';
 
 const UserDropIcon: React.FC<IAccountMenuProps> = ({ user }) => {
 
@@ -30,7 +31,7 @@ const UserDropIcon: React.FC<IAccountMenuProps> = ({ user }) => {
     const handleOpenUserInfo = () => {
         setAnchorEl(null);
     }
-
+    const navigate = useNavigate()
     const handlelogout = async () => {
         setAnchorEl(null);
         await logout().unwrap()
@@ -66,7 +67,7 @@ const UserDropIcon: React.FC<IAccountMenuProps> = ({ user }) => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleOpenUserInfo}>
+                <MenuItem onClick={() => navigate('/profile')}>
                     <Avatar /> {user?.username}
                 </MenuItem>
                 <Divider />

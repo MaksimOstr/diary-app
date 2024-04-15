@@ -30,4 +30,9 @@ export interface ISearchTextFieldfProps {
 
 export interface TaskFormHandle {
     onSubmit: () => void;
-  }
+}
+
+
+export interface UserProfileProps {
+    data: IUser | undefined
+}
