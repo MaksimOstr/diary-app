@@ -1,5 +1,5 @@
 import { ICreateTaskReq, useAppDispatch, useAppSelector, useCreateTaskMutation } from '@diary-app/shared'
-import { Backdrop, Box, Button, Dialog, MenuItem, Select, Stack, TextField, Typography, useTheme } from '@mui/material'
+import { Backdrop, Box, Button, Dialog, Grow, MenuItem, Select, Stack, TextField, Typography, useTheme } from '@mui/material'
 import React, { useRef } from 'react'
 import { bodyTaskFormProps } from './styles'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -11,18 +11,20 @@ import { TaskFormHandle } from '../../../features-MainPage/types';
 export const CreateTaskPage = () => {
 
     const formRef = useRef<TaskFormHandle>(null!)
-    const handleClose = () => formRef?.current?.onSubmit() 
+    const handleClose = () => formRef?.current?.onSubmit()
 
     return (
         <Dialog
-            PaperProps={{sx: bodyTaskFormProps}}
+            PaperProps={{ sx: bodyTaskFormProps }}
             open
-            onClose={ handleClose }
+            onClose={handleClose}
+            TransitionComponent={Grow}
+            transitionDuration={300}
             fullWidth
             maxWidth="md"
         >
-                <Typography variant='h5'>Create a new task</Typography>
-                <CreateTaskForm ref={formRef}/>
+            <Typography variant='h5'>Create a new task</Typography>
+            <CreateTaskForm ref={formRef} />
         </Dialog>
     )
 }

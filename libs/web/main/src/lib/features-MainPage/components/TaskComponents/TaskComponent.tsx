@@ -1,8 +1,8 @@
 import { ITask, useDeleteTaskMutation, useGetTasksQuery } from '@diary-app/shared'
-import { Box, Card, CardActionArea, CardContent, IconButton, Stack, Typography, useTheme } from '@mui/material'
+import { Box, Card, CardActionArea, CardContent, Grow, IconButton, Stack, Typography, useTheme } from '@mui/material'
 import React, { useContext } from 'react'
 import { ITaskComponentProps } from '../../types'
-import { breakpointColumnsObj, selectColourForTask } from './styles'
+import { breakpointColumnsObj, selectColourForTask } from './additionally'
 import Masonry from 'react-masonry-css'
 import './styles.scss'
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,7 +20,8 @@ export const TaskComponent: React.FC<ITaskComponentProps> = ({ task }) => {
       className="my-masonry-grid"
       columnClassName="my-masonry-grid_column">
       {task?.map(task =>
-        <Box className='rootBody'
+       <Grow key={task.id} in>
+         <Box className='rootBody'
           key={task.id}
           borderColor={selectColourForTask(task.status)}
         >
@@ -45,7 +46,8 @@ export const TaskComponent: React.FC<ITaskComponentProps> = ({ task }) => {
               </IconButton>
             </Box>
           </Box>
-        </Box>)}
+        </Box>
+       </Grow>)}
     </Masonry>
   )
 }

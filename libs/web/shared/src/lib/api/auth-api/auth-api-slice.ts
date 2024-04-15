@@ -52,7 +52,7 @@ export const authApiSlice = authApi.injectEndpoints({
             }),
             invalidatesTags: (result, error, arg) => [{ type: 'Tasks', id: arg.taskId }],
         }),
-        getTaskById: builder.query<ITask, string | undefined>({
+        getTaskById: builder.query<ITask, string | string>({
             query: (taskId) => ({
                 url: `task/${taskId}`,
                 method: 'GET',
@@ -65,7 +65,7 @@ export const authApiSlice = authApi.injectEndpoints({
                 method: 'PUT',
                 body: data.taskData
             }),
-            invalidatesTags: (result, error, arg) => [{ type: 'Tasks', id: arg.taskId }],
+            invalidatesTags: (result, error, arg) => [{ type: 'Tasks', id: arg.taskId}],
         })
     })
 })
