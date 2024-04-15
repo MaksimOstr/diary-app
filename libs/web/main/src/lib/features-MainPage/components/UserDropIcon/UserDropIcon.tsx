@@ -11,11 +11,11 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { sxProps } from './styles';
 import { IAccountMenuProps } from '../../types';
-import { toggleUserInfoPage, useAppDispatch, useLogoutMutation } from '@diary-app/shared';
+import { useAppDispatch, useLogoutMutation } from '@diary-app/shared';
 import { toast } from 'react-toastify'
 
-const AccountMenu: React.FC<IAccountMenuProps> = ({ user }) => {
-    
+const UserDropIcon: React.FC<IAccountMenuProps> = ({ user }) => {
+
     const [logout] = useLogoutMutation()
     const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -29,7 +29,6 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user }) => {
 
     const handleOpenUserInfo = () => {
         setAnchorEl(null);
-        dispatch(toggleUserInfoPage())
     }
 
     const handlelogout = async () => {
@@ -45,7 +44,7 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user }) => {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">
                     <IconButton
-                        onClick={ handleClick }
+                        onClick={handleClick}
                         size="large"
                         sx={{ pr: 2 }}
                         aria-controls={open ? 'account-menu' : undefined}
@@ -60,24 +59,24 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user }) => {
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={open}
-                onClose={ handleClose }
-                onClick={ handleClose }
+                onClose={handleClose}
+                onClick={handleClose}
                 elevation={0}
                 sx={sxProps}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={ handleOpenUserInfo }>
+                <MenuItem onClick={handleOpenUserInfo}>
                     <Avatar /> {user?.username}
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={ handleClose }>
+                <MenuItem onClick={handleClose}>
                     <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>
                     Settings
                 </MenuItem>
-                <MenuItem onClick={ handlelogout }>
+                <MenuItem onClick={handlelogout}>
                     <ListItemIcon sx={{ color: '#dc0014' }}>
                         <Logout fontSize="small" />
                     </ListItemIcon>
@@ -88,4 +87,4 @@ const AccountMenu: React.FC<IAccountMenuProps> = ({ user }) => {
     );
 }
 
-export default AccountMenu
+export default UserDropIcon

@@ -4,7 +4,7 @@ export const bodyTaskFormProps = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '50%',
+    p: '20px 30px',
     position: 'relative',
     borderRadius: 3,
     flexDirection: 'column'

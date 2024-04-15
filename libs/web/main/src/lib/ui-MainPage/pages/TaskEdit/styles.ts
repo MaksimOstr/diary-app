@@ -12,3 +12,11 @@ export const InputsSection = {
 export const ButtonSectionSxProps = {
 
 } as SxProps
+
+
+export const notLoaded = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 7
+} as SxProps

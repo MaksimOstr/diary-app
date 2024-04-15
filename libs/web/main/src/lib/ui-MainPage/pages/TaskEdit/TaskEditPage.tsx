@@ -1,15 +1,15 @@
 import { useGetTaskByIdQuery } from '@diary-app/shared'
-import { CircularProgress, Dialog, DialogContent, useTheme } from '@mui/material'
+import { CircularProgress, Dialog } from '@mui/material'
 import React, { useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import TaskEditForm from './components/TaskEditForm'
-interface TaskEditFormHandle {
-  onSubmit: () => void;
-}
+import { useParams } from 'react-router-dom'
+import TaskEditForm from './form/TaskEditForm'
+import { TaskFormHandle } from '../../../features-MainPage/types'
+import { notLoaded } from './styles'
+
 
 export const TaskEditPage = () => {
 
-  const formRef = useRef<TaskEditFormHandle>(null!)
+  const formRef = useRef<TaskFormHandle>(null!)
    const handleClose = () => formRef?.current?.onSubmit() 
 
   const { id } = useParams()
@@ -21,9 +21,11 @@ export const TaskEditPage = () => {
     <Dialog
       open={ true }
       onClose={ handleClose }
-      PaperProps={{sx: { borderRadius: 3, width: '50%' }}}
+      maxWidth='sm'
+      fullWidth
+      PaperProps={{sx: isLoading ? notLoaded : { borderRadius: 3 }}}
     >
-        {isLoading ? <CircularProgress/> : <TaskEditForm ref={ formRef } data={ data } id={ id }/>} 
+        {isLoading ? <CircularProgress/> : <TaskEditForm data={ data } id={ id } ref={ formRef }/>} 
     </Dialog>
   )
 }

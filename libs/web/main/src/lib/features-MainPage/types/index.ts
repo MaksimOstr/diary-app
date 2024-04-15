@@ -27,3 +27,7 @@ export interface ISearchTextFieldfProps {
     tasks: ITask[] | undefined
     isLoading: boolean
 }
+
+export interface TaskFormHandle {
+    onSubmit: () => void;
+  }

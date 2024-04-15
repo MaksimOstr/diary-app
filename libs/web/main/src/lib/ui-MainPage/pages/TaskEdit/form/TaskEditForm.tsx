@@ -10,7 +10,6 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
 
   const navigate = useNavigate()
   const [changeTask] = useChangeTaskMutation()
-  console.log(data)
   const { control, handleSubmit, reset, getValues } = useForm<ICreateTaskReq>({
     defaultValues: {
       title: data?.title,
@@ -21,29 +20,22 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
 
   useImperativeHandle(ref, () => ({
     onSubmit: async () => {
-      const reqBody = {
-        taskData: getValues(),
-        taskId: id
-      } as IChangeTaskReq
-      if(data?.description === reqBody.taskData.description && data.title === reqBody.taskData.title && data.status === reqBody.taskData.status) {
-        navigate('/')
-        return
-      }
-      await changeTask(reqBody).unwrap()
-      navigate('/')
+      onSubmit(getValues())
     }
   }))
 
   const onSubmit: SubmitHandler<ICreateTaskReq> = async (taskData) => {
     const reqData = {
       taskId: id,
-      taskData
+      taskData: getValues()
     } as IChangeTaskReq
     if(data?.description === taskData.description && data.title === taskData.title && data.status === taskData.status) {
+      reset()
       navigate('/')
       return
     }
     await changeTask(reqData)
+    reset()
     navigate('/')
   }
 
