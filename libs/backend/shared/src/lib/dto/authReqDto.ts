@@ -3,7 +3,7 @@ import { IsString, MinLength } from 'class-validator'
 export {} from 'class-validator'
 
 
-export class AuthUserReqDto {
+export class AuthReqDto {
     constructor() {
         this.username = ''
         this.password = ''

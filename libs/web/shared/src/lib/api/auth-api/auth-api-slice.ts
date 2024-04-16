@@ -66,9 +66,17 @@ export const authApiSlice = authApi.injectEndpoints({
                 body: data.taskData
             }),
             invalidatesTags: (result, error, arg) => [{ type: 'Tasks', id: arg.taskId}],
+        }),
+        changeUsername: builder.mutation<IToken, { username: string }>({
+            query: (data) => ({
+                url: `auth/changeUsername`,
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['Token']
         })
     })
 })
 
 
-export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenMutation, useLogoutMutation, useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation, useGetTaskByIdQuery, useChangeTaskMutation } = authApiSlice
+export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenMutation, useLogoutMutation, useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation, useGetTaskByIdQuery, useChangeTaskMutation, useChangeUsernameMutation } = authApiSlice

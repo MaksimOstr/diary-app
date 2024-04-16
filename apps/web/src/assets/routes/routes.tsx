@@ -3,7 +3,7 @@ import { SignUp } from "@diary-app/SignUp";
 
 import { SignIn } from "@diary-app/SignIn";
 import mainPageLoader from "./loaders/ProfileLoader";
-import { CreateTaskPage, MainPage, TaskComponent, TaskEditPage, UserProfilePage } from "@diary-app/main";
+import { ChangeUsernameForm, CreateTaskPage, MainPage, TaskComponent, TaskEditPage, UserProfilePage } from "@diary-app/main";
 import { Box } from "@mui/material";
 
 
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/task/:id',
-        element: <TaskEditPage/>
+        element: <TaskEditPage/>,
       },
       {
         path: 'task/create',
@@ -29,7 +29,13 @@ export const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <UserProfilePage/>
+        element: <UserProfilePage/>,
+        children: [
+          {
+            path: '/profile/changeUsername',
+            element: <ChangeUsernameForm/>
+          }
+        ]
       }
     ]
   },

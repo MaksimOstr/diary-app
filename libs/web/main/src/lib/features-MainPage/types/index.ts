@@ -36,3 +36,7 @@ export interface TaskFormHandle {
 export interface UserProfileProps {
     data: IUser | undefined
 }
+
+export interface IConfirmPasswordProps {
+    reject: () => void
+}

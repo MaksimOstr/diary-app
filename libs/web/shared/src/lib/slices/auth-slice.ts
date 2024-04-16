@@ -42,6 +42,13 @@ const AuthSlice = createSlice({
                 localStorage.removeItem('token')
             }
         )
+        builder.addMatcher(
+            authApiSlice.endpoints.changeUsername.matchFulfilled,
+            (state, { payload }) => {
+                console.log(payload.access_token)
+                localStorage.setItem('token', payload.access_token)
+            }
+        )
     }
 })
 

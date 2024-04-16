@@ -1,10 +1,9 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpStatus, Post, Res, UnauthorizedException, UseGuards, UseInterceptors } from "@nestjs/common";
-import { AuthUserReqDto } from "./dto/authUserReq.dto";
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpStatus, Post, Put, Res, UnauthorizedException, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { Tokens } from "./interfaces/interface";
 import { Response } from "express";
 import { ConfigService } from "@nestjs/config";
-import { Cookie, CurrentUser, JwtPayload, Public, Roles, UserAgent } from "shared-backend";
+import { AuthReqDto, Cookie, CurrentUser, JwtPayload, Public, Roles, UserAgent } from "shared-backend";
 import { Role, User } from "@prisma/client";
 import { UserResponse } from "shared-backend";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
@@ -22,7 +21,7 @@ export class AuthController {
     @Public()
     @UseInterceptors(ClassSerializerInterceptor)
     @Post('register')
-    async register(@Body() dto: AuthUserReqDto): Promise<User> {
+    async register(@Body() dto: AuthReqDto): Promise<User> {
         const user = await this.authService.register(dto)
         return new UserResponse(user)
     }
@@ -30,7 +29,7 @@ export class AuthController {
     @Public()
     @Post('login')
     async login(
-        @Body() dto: AuthUserReqDto,
+        @Body() dto: AuthReqDto,
         @Res() res: Response,
         @UserAgent() agent: string
     ) {
@@ -70,6 +69,16 @@ export class AuthController {
         return user
     }
 
+    @Put('/changeUsername')
+    async changeUser(
+        @CurrentUser() user: JwtPayload,
+        @Body() data: { username: string },
+        @Res() res: Response
+    ) {
+        const token = await this.authService.changeUsername(data.username, user)
+        res.json({ access_token: token.accessToken })
+    }
+
     private setRefreshTokenToCookies(tokens: Tokens, res: Response) {
         if (!tokens) {
             throw new UnauthorizedException()
@@ -83,4 +92,5 @@ export class AuthController {
         })
         res.json({ access_token: tokens.accessToken })
     }
+
 }

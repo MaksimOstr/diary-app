@@ -51,6 +51,7 @@ export class UserService {
         return user
     }
 
+
     async delete(id: string, user: JwtPayload) {
         if (user.id !== id && !user.roles.includes(Role.ADMIN)) {
             throw new ForbiddenException()
