@@ -40,3 +40,9 @@ export interface UserProfileProps {
 export interface IConfirmPasswordProps {
     reject: () => void
 }
+
+
+export interface IChangePasswordForm {
+    password: string
+    confirmPassword: string
+}

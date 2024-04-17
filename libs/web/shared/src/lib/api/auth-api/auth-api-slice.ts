@@ -74,9 +74,23 @@ export const authApiSlice = authApi.injectEndpoints({
                 body: data
             }),
             invalidatesTags: ['Token']
+        }),
+        confirmPassword: builder.query<void, { password: string }>({
+            query: (data) => ({
+                url: `auth/confirmPassword`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        changePassword: builder.mutation<void, { password: string }>({
+            query: (data) => ({
+                url: `auth/changePassword`,
+                method: 'PUT',
+                body: data
+            })
         })
     })
 })
 
 
-export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenMutation, useLogoutMutation, useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation, useGetTaskByIdQuery, useChangeTaskMutation, useChangeUsernameMutation } = authApiSlice
+export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenMutation, useLogoutMutation, useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation, useGetTaskByIdQuery, useChangeTaskMutation, useChangeUsernameMutation, useLazyConfirmPasswordQuery, useChangePasswordMutation } = authApiSlice

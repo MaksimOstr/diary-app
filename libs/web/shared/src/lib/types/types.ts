@@ -12,7 +12,6 @@ export interface IUser {
 export interface IAuthInitial {
     user: IUser | null,
     isAuth: boolean,
-    token: string | null
 }
 
 export interface IToken {

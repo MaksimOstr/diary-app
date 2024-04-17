@@ -7,7 +7,7 @@ import { UserProfileProps } from '../../../../../features-MainPage/types/index';
 import LockIcon from '@mui/icons-material/Lock';
 
 import { useNavigate } from 'react-router-dom';
-import ConfirmPassword from '../confirmPassword/confirmPassword';
+import ConfirmPassword from '../ConfirmPassword/confirmPassword';
 const BodyPaper: React.FC<UserProfileProps> = ({ data }) => {
 
     const navigate = useNavigate()

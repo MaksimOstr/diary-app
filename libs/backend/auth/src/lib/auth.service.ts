@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { UserService } from "@diary-app/user";
 import { Tokens } from "./interfaces/interface";
-import { compareSync } from "bcrypt";
+import { compare, compareSync, genSalt, genSaltSync, hashSync } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { Token, User } from "@prisma/client";
 import { PrismaService } from "@diary-app/prisma";
@@ -34,6 +34,7 @@ export class AuthService {
             this.logger.error(error)
             return null
         })
+        console.log(user?.password)
         if (!user || !compareSync(dto.password, user.password)) throw new UnauthorizedException('Username or password is incorrect')
 
         return this.generateTokens(user, agent)
@@ -108,5 +109,22 @@ export class AuthService {
             data: { username }
         })
         return { accessToken: access_token }
+    }
+
+    async confirmPassword(username: string, password: string) {
+        const user = await this.userService.findOne(username)
+        if(!user || !compareSync(password, user.password)) throw new ForbiddenException('Password not confirmed!')
+            
+        return null
+    }
+
+    async changePassword(userId: string, password: string) {
+        const user = await this.userService.findOne(userId)
+        if(!user || await compare(password, user.password)) throw new ForbiddenException("Your password is the same as your current one!")
+
+        return this.prismaService.user.update({
+            where: { id: userId },
+            data: { password: hashSync(password, genSaltSync(10)) }
+        })
     }
 }

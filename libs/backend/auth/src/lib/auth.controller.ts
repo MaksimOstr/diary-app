@@ -93,4 +93,24 @@ export class AuthController {
         res.json({ access_token: tokens.accessToken })
     }
 
+    @Post('/confirmPassword')
+    async confirmPassword(
+        @CurrentUser() user: JwtPayload,
+        @Body() data: {password: string},
+        @Res() res: Response
+    ) {
+        await this.authService.confirmPassword(user.username, data.password)
+        return res.json(HttpStatus.OK)
+    }
+
+    @Put('/changePassword')
+    async changePassword(
+        @CurrentUser() user: JwtPayload,
+        @Body() data: {password: string},
+        @Res() res: Response
+    ) {
+        console.log(data)
+        await this.authService.changePassword(user.id, data.password)
+        return res.json(HttpStatus.OK)
+    }
 }
