@@ -1,4 +1,4 @@
-import { ITask, IToken, IUser, IUserReq } from "../../types/types";
+import { IChangeTaskReq, ICreateTaskReq, ITask, IToken, IUser, IUserReq } from "../../types/types";
 import { authApi } from "./auth-api";
 
 export const authApiSlice = authApi.injectEndpoints({
@@ -36,7 +36,7 @@ export const authApiSlice = authApi.injectEndpoints({
                   ? [...result.map(({ id }) => ({ type: 'Tasks' as const, id })), 'Tasks']
                   : ['Tasks'],
         }),
-        createTask: builder.mutation({
+        createTask: builder.mutation<ITask, ICreateTaskReq>({
             query: (body) => ({
                 url: `task/create`,
                 method: 'Post',
@@ -50,10 +50,47 @@ export const authApiSlice = authApi.injectEndpoints({
                 method: 'DELETE',
                 body
             }),
-            invalidatesTags: ['Tasks']
+            invalidatesTags: (result, error, arg) => [{ type: 'Tasks', id: arg.taskId }],
+        }),
+        getTaskById: builder.query<ITask, string | undefined>({
+            query: (taskId) => ({
+                url: `task/${taskId}`,
+                method: 'GET',
+            }),
+            providesTags:(result, error, arg) => [{type: 'Tasks', id: arg}]
+        }),
+        changeTask: builder.mutation<ITask, IChangeTaskReq>({
+            query: (data) => ({
+                url: `task/${data.taskId}/change`,
+                method: 'PUT',
+                body: data.taskData
+            }),
+            invalidatesTags: (result, error, arg) => [{ type: 'Tasks', id: arg.taskId}],
+        }),
+        changeUsername: builder.mutation<IToken, { username: string }>({
+            query: (data) => ({
+                url: `auth/changeUsername`,
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['Token']
+        }),
+        confirmPassword: builder.query<void, { password: string }>({
+            query: (data) => ({
+                url: `auth/confirmPassword`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        changePassword: builder.mutation<void, { password: string }>({
+            query: (data) => ({
+                url: `auth/changePassword`,
+                method: 'PUT',
+                body: data
+            })
         })
     })
 })
 
 
-export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenMutation, useLogoutMutation, useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation } = authApiSlice
+export const { useLoginMutation, useRegisterMutation, useFetchUserQuery, useRefreshTokenMutation, useLogoutMutation, useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation, useGetTaskByIdQuery, useChangeTaskMutation, useChangeUsernameMutation, useLazyConfirmPasswordQuery, useChangePasswordMutation } = authApiSlice

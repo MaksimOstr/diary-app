@@ -41,3 +41,4 @@ Thumbs.db
 .nx/cache
 .env
 .vscode
+vite.config.mts.timestamp-*

@@ -13,11 +13,36 @@ export interface iCreateNewTaskFormProps {
     open: boolean
 }
 
-export interface ICreateFormData {
-    title: string
-    description: string
-}
 
 export interface ITaskComponentProps {
-    task: ITask[] | undefined
+    task?: ITask[] | undefined
+}
+
+export interface IChangeTaskPageProps {
+    data: ITask | undefined
+    id: string | undefined
+}
+
+export interface ISearchTextFieldfProps {
+    tasks: ITask[] | undefined
+    isLoading: boolean
+}
+
+export interface TaskFormHandle {
+    onSubmit: () => void;
+}
+
+
+export interface UserProfileProps {
+    data: IUser | undefined
+}
+
+export interface IConfirmPasswordProps {
+    reject: () => void
+}
+
+
+export interface IChangePasswordForm {
+    password: string
+    confirmPassword: string
 }

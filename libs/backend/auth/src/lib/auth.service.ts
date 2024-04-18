@@ -1,13 +1,13 @@
-import { BadRequestException, ConflictException, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
-import { AuthUserReqDto } from "./dto/authUserReq.dto";
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { UserService } from "@diary-app/user";
 import { Tokens } from "./interfaces/interface";
-import { compareSync } from "bcrypt";
+import { compare, compareSync, genSalt, genSaltSync, hashSync } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { Token, User } from "@prisma/client";
 import { PrismaService } from "@diary-app/prisma";
 import { v4 } from 'uuid';
 import { add } from 'date-fns';
+import { AuthReqDto, JwtPayload } from "shared-backend";
 
 @Injectable()
 export class AuthService {
@@ -20,7 +20,7 @@ export class AuthService {
 
     }
 
-    async register(dto: AuthUserReqDto): Promise<User> {
+    async register(dto: AuthReqDto): Promise<User> {
         const user = await this.userService.findOne(dto.username)
         if (user) {
             throw new BadRequestException('User already exists!')
@@ -29,11 +29,12 @@ export class AuthService {
         return this.userService.save(dto)
     }
 
-    async login(dto: AuthUserReqDto, agent: string): Promise<Tokens> {
+    async login(dto: AuthReqDto, agent: string): Promise<Tokens> {
         const user = await this.userService.findOne(dto.username, true).catch(error => {
             this.logger.error(error)
             return null
         })
+        console.log(user?.password)
         if (!user || !compareSync(dto.password, user.password)) throw new UnauthorizedException('Username or password is incorrect')
 
         return this.generateTokens(user, agent)
@@ -92,5 +93,38 @@ export class AuthService {
         return this.prismaService.token.delete({ 
             where: { token }
          })
+    }
+
+    async changeUsername(username: string, user: JwtPayload): Promise<Partial<Tokens>> {
+        const isExists = await this.userService.findOne(username)
+        if(isExists) throw new ForbiddenException('User with this username already exists!')
+        
+        const access_token = this.jwtService.sign({
+            id: user.id,
+            username: username,
+            roles: user.roles,
+        })
+        await this.prismaService.user.update({
+            where: { id: user.id },
+            data: { username }
+        })
+        return { accessToken: access_token }
+    }
+
+    async confirmPassword(username: string, password: string) {
+        const user = await this.userService.findOne(username)
+        if(!user || !compareSync(password, user.password)) throw new ForbiddenException('Password not confirmed!')
+            
+        return null
+    }
+
+    async changePassword(userId: string, password: string) {
+        const user = await this.userService.findOne(userId)
+        if(!user || await compare(password, user.password)) throw new ForbiddenException("Your password is the same as your current one!")
+
+        return this.prismaService.user.update({
+            where: { id: userId },
+            data: { password: hashSync(password, genSaltSync(10)) }
+        })
     }
 }

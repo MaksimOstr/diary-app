@@ -3,11 +3,11 @@ import { Box, Button, TextField, Typography, useTheme } from '@mui/material'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formBodyProps, submitButtonProps } from '../features-SignIn/styles/styles';
-import { formSchema } from '../features-SignIn/schema/schema';
 import { IUserReq, useAppDispatch, useAppSelector, useLoginMutation } from '@diary-app/shared';
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import Form from '../features-SignIn/components/Form';
+import { formSchema } from '../features-SignIn/schema/schema';
 
 
 export const SignIn: React.FC = () => {

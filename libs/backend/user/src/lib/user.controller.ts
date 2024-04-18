@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, ParseIntPipe, ParseUUIDPipe, Post, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, ParseIntPipe, ParseUUIDPipe, Post, Put, UseGuards, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { User } from "@prisma/client";
 import { CurrentUser, JwtPayload } from "shared-backend";

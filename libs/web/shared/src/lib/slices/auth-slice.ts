@@ -7,7 +7,6 @@ const AuthSlice = createSlice({
     initialState: {
         isAuth: false,
         user: null,
-        token: null
     } as IAuthInitial,
     reducers: {
         refreshToken(state, action) {
@@ -36,6 +35,20 @@ const AuthSlice = createSlice({
         )
         builder.addMatcher(
             authApiSlice.endpoints.logout.matchFulfilled,
+            (state, { payload }) => {
+                state.isAuth = false
+                state.user = null
+                localStorage.removeItem('token')
+            }
+        )
+        builder.addMatcher(
+            authApiSlice.endpoints.changeUsername.matchFulfilled,
+            (state, { payload }) => {
+                localStorage.setItem('token', payload.access_token)
+            }
+        )
+        builder.addMatcher(
+            authApiSlice.endpoints.changePassword.matchFulfilled,
             (state, { payload }) => {
                 state.isAuth = false
                 state.user = null
