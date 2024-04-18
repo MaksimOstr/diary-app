@@ -1,5 +1,5 @@
 import { Box, IconButton, Stack, TextField } from '@mui/material'
-import React, { useRef } from 'react'
+import React from 'react'
 import { UsernameSxProps } from './styles'
 import CheckIcon from '@mui/icons-material/Check';
 import DoDisturbIcon from '@mui/icons-material/DoDisturb';
@@ -21,13 +21,14 @@ const ConfirmPassword: React.FC<IConfirmPasswordProps> = ({ reject }) => {
     })
 const navigate = useNavigate()
 
-    const [confirmPassword, { data, isLoading }] = useLazyConfirmPasswordQuery()
+    const [confirmPassword, { isLoading }] = useLazyConfirmPasswordQuery()
 
     const onSubmit: SubmitHandler<{ password: string }> = async (data) => {
         const id = toast.loading("Please wait...")
         await confirmPassword(data).unwrap()
         .then(res => { 
             toast.update(id, {render: "Password confirmed successfully!", type: "success", isLoading: isLoading, autoClose: 4000});
+            reset()
             reject()
             navigate('changePassword')
        }).catch(err => {
