@@ -24,6 +24,8 @@ export const SignUp: React.FC = () => {
             confirmPassword: ''
         }
     })
+
+    //test
     const onSubmit: SubmitHandler<IUserReq> = async (data) => {
         await register(data).unwrap()
             .then(res => navigate('/SignIn'))
