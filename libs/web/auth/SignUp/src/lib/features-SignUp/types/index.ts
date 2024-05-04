@@ -6,10 +6,3 @@ export interface ISignUp {
     password: string
     confirmPassword: string
 }
-
-export interface ISignUpFormProps {
-    submit: UseFormHandleSubmit<ISignUp, undefined>
-    control: Control<ISignUp, any>
-    errors: FieldErrors<ISignUp>
-    onSubmit: SubmitHandler<IUserReq>
-}

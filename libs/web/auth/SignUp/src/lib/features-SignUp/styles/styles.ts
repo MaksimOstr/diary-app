@@ -5,7 +5,7 @@ export const formBodyProps = {
 }
 
 export const submitButtonProps = {
-    marginTop: { xl: '25px', xs: '15px' },
+    marginTop: { xl: '30px', xs: '15px' },
     width: '30%',
     fontSize: { xl: '18px', xs: '14px' },
 }

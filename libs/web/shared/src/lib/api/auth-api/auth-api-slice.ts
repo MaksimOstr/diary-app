@@ -12,7 +12,7 @@ export const authApiSlice = authApi.injectEndpoints({
         }),
         login: builder.mutation<IToken, IUserReq>({
             query: (body) => ({
-                url: `/auth/login`,
+                url: `auth/login`,
                 method: 'POST',
                 body
             }),

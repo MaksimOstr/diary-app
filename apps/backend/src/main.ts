@@ -8,7 +8,11 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import cookieParser from 'cookie-parser'
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { server } from 'globalShared'
 
+
+
+server.listen()
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,7 +20,7 @@ async function bootstrap() {
     credentials: true,
     origin: 'http://localhost:4200'
   }),
-  app.useGlobalPipes(new ValidationPipe())
+    app.useGlobalPipes(new ValidationPipe())
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;

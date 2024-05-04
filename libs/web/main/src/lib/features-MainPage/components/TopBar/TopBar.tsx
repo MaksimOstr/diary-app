@@ -1,7 +1,6 @@
-import { AppBar, Button, Container, useTheme, Toolbar, Chip, ListItemIcon, MenuItem, Menu, TextField, Box } from '@mui/material'
+import { AppBar, Button, Container, useTheme, Toolbar, Chip, ListItemIcon, MenuItem, Menu, TextField, Box, Typography } from '@mui/material'
 import React from 'react'
 import BookIcon from '@mui/icons-material/Book';
-import { Typography } from '@mui/material';
 import { useAppSelector, useGetTasksQuery, useLogoutMutation } from '@diary-app/shared';
 import { useNavigate } from 'react-router-dom';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';

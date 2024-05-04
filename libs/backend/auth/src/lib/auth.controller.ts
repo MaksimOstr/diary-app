@@ -7,9 +7,7 @@ import { AuthReqDto, Cookie, CurrentUser, JwtPayload, Public, Roles, UserAgent }
 import { Role, User } from "@prisma/client";
 import { UserResponse } from "shared-backend";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
-
-
-
+import { server } from "globalShared";
 
 @Controller('auth')
 export class AuthController {
