@@ -47,14 +47,12 @@ describe('SignIn UI tests', () => {
     })
 
     test('Submitting the form with empty fields', async () => {
-        
+
         const { getByTestId, findByTestId } = render(
             <BrowserRouter>
                 <Form />
             </BrowserRouter>
         )
-
-        const { result } = renderHook(() => authApiSlice.endpoints.login.useMutation(), { wrapper: AllTheProviders })
 
         const firstInput = getByTestId('usernameField')
         const submitButton = await findByTestId('submitBtn')
@@ -64,13 +62,12 @@ describe('SignIn UI tests', () => {
         await act(() => {
             fireEvent.submit(submitButton)
         });
+
         expect(getByTestId('usernameField')).toBeInvalid()
         expect(getByTestId('passwordField')).toBeInvalid()
-        
     })
 
     test('Submitting the form with wrong username or password', async () => {
-        const { result } = renderHook(() => authApiSlice.endpoints.login.useMutation(), { wrapper: AllTheProviders })
         const { getByTestId, findByRole, findByText } = render(
             <BrowserRouter>
                 <Form />
@@ -91,6 +88,7 @@ describe('SignIn UI tests', () => {
 
             fireEvent.submit(getByTestId('submitBtn'))
         })
+
         expect(await findByText(/username or password is incorrect/i)).toBeInTheDocument()
         expect(getByTestId('usernameField')).toHaveValue('')
         expect(getByTestId('passwordField')).toHaveValue('')
@@ -99,10 +97,10 @@ describe('SignIn UI tests', () => {
 
     test('Submitting with correct username and password', async () => {
         const { getByTestId, findByRole, findByText } = render(
-            <MemoryRouter initialEntries={['/SignIn', '/']}>
-                <Form />
-                <Routes>                    
-                    <Route path="/" element={<Box>MainPage</Box>}/>
+            <MemoryRouter initialEntries={['/form']}>
+                <Routes>
+                    <Route path="form" element={<Form/>}/>
+                    <Route path="/" element={<Box>MainPage</Box>} />
                 </Routes>
             </MemoryRouter>
         )
@@ -124,5 +122,22 @@ describe('SignIn UI tests', () => {
 
         expect(await findByText(/Authorization is successful! Hello test!/i)).toBeInTheDocument()
         expect(await findByText(/mainpage/i)).toBeInTheDocument()
+    })
+
+
+    test("redirect by link", async () => {
+        const { getByTestId, getByText } = render(
+            <MemoryRouter initialEntries={["/SignIn"]}>
+                <Routes>
+                    <Route path="SignIn" element={<SignIn/>}/>
+                    <Route path="/SignUp" element={<Box data-testid="testNavigation">Sign up page</Box>}/>
+                </Routes>
+            </MemoryRouter>
+        )
+        await act(() => {
+            fireEvent.click(getByTestId("link"))
+        })
+
+        expect(getByText(/sign up page/i)).toBeInTheDocument()
     })
 })

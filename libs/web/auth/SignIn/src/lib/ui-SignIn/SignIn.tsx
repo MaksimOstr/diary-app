@@ -32,7 +32,7 @@ export const SignIn: React.FC = () => {
         flexDirection='column'
       >
         <Typography data-testid="formTitle" mb={2} variant='h2' fontWeight='500'>Sign in</Typography>
-        <Typography mb={6} variant='body2'>Still don't have an account? <Link to='/SignUp' style={{ textDecoration: 'none', color: theme.palette.primary.contrastText }}>SignUp</Link></Typography>
+        <Typography mb={6} variant='body2'>Still don't have an account? <Link data-testid="link" to='/SignUp' style={{ textDecoration: 'none', color: theme.palette.primary.contrastText }}>SignUp</Link></Typography>
         <Form/>
       </Box>
     </Box >

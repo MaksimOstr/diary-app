@@ -31,7 +31,6 @@ const Form: React.FC = () => {
             .then(res => {
                 toast.success('Account is successfully created!')
                 navigate('/SignIn')
-                reset()
             })
             .catch(error => {
                 toast.error(error.data.message)
@@ -56,6 +55,7 @@ const Form: React.FC = () => {
                         name='username'
                         render={({ field }) => (
                             <TextField
+                                inputProps={{ "data-testid": "usernameField" }}
                                 color='secondary'
                                 autoComplete='false'
                                 fullWidth
@@ -74,6 +74,7 @@ const Form: React.FC = () => {
                         name='password'
                         render={({ field }) => (
                             <TextField
+                                inputProps={{ "data-testid": "passwordField" }}
                                 color='secondary'
                                 autoComplete='false'
                                 fullWidth
@@ -93,6 +94,7 @@ const Form: React.FC = () => {
                         name='confirmPassword'
                         render={({ field }) => (
                             <TextField
+                                inputProps={{ "data-testid": "confirmPasswordField" }}
                                 color='secondary'
                                 autoComplete='false'
                                 fullWidth
