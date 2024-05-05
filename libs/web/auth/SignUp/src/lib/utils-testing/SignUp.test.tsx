@@ -45,6 +45,7 @@ describe('SignUp UI tests', () => {
         )
 
         fireEvent.click(getByTestId('link'))
+        
         expect(getByText(/sign in page/i)).toBeInTheDocument()
     })
 

@@ -99,7 +99,7 @@ describe('SignIn UI tests', () => {
         const { getByTestId, findByRole, findByText } = render(
             <MemoryRouter initialEntries={['/form']}>
                 <Routes>
-                    <Route path="form" element={<Form/>}/>
+                    <Route path="form" element={<Form />} />
                     <Route path="/" element={<Box>MainPage</Box>} />
                 </Routes>
             </MemoryRouter>
@@ -129,15 +129,39 @@ describe('SignIn UI tests', () => {
         const { getByTestId, getByText } = render(
             <MemoryRouter initialEntries={["/SignIn"]}>
                 <Routes>
-                    <Route path="SignIn" element={<SignIn/>}/>
-                    <Route path="/SignUp" element={<Box data-testid="testNavigation">Sign up page</Box>}/>
+                    <Route path="SignIn" element={<SignIn />} />
+                    <Route path="/SignUp" element={<Box data-testid="testNavigation">Sign up page</Box>} />
                 </Routes>
             </MemoryRouter>
         )
-        await act(() => {
-            fireEvent.click(getByTestId("link"))
-        })
+        fireEvent.click(getByTestId("link"))
 
         expect(getByText(/sign up page/i)).toBeInTheDocument()
+    })
+
+    test("Fields with not suitable format", async () => {
+        const { getByTestId, getByRole, getByText } = render(
+            <BrowserRouter>
+                <Form />
+            </BrowserRouter>
+        )
+
+        await act(() => {
+            fireEvent.input(getByTestId("usernameField"), {
+                target: {
+                    value: 'te'
+                }
+            })
+            fireEvent.input(getByTestId("passwordField"), {
+                target: {
+                    value: '12'
+                }
+            })
+
+            fireEvent.submit(getByRole('button'))
+        })
+
+        expect(getByText(/username length should be at least 3 characters/i)).toBeInTheDocument()
+        expect(getByText(/password length should be at least 4 characters/i)).toBeInTheDocument()
     })
 })
