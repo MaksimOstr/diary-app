@@ -76,6 +76,7 @@ export class AuthService {
     }
 
     async refreshTokens(refreshToken: string, agent: string): Promise<Tokens> {
+        
         if (!refreshToken) throw new UnauthorizedException()
 
         const token = await this.prismaService.token.delete({ where: { token: refreshToken } });

@@ -11,7 +11,6 @@ export class TaskService {
 
 
     async createTask(dto: CreateTaskDto, userId: string) {
-        console.log(dto.description.length)
         return await this.prismaService.task.create({
             data: {
                 title: dto.title,

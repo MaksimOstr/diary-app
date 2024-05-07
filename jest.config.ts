@@ -8,8 +8,8 @@ export default {
     uuid: require.resolve('uuid'),
   },
   transform: {
-    '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest', // My config from before
-    '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nrwl/react/babel'] }], // Added by Nx under the migration
+    '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
+    '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nrwl/react/babel'] }],
   },
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["@testing-library/jest-dom", "./jest.setup.ts"],

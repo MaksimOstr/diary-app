@@ -1,5 +1,6 @@
 import { TaskStatus } from "@prisma/client"
-import { IsNotEmpty, IsString, isString, MinLength,  } from "class-validator"
+import { IsNotEmpty, IsString, isString, MinLength, IsEnum } from "class-validator"
+import { ApiProperty } from "@nestjs/swagger"
 
 export class CreateTaskDto {
     constructor() {
@@ -8,10 +9,14 @@ export class CreateTaskDto {
         this.status = "NEUTRAL"
     }
 
+    @ApiProperty()
     @IsString()
     title: string
 
+    @ApiProperty()
     description: string
 
+    @ApiProperty({enum: TaskStatus})
+    @IsEnum(TaskStatus)
     status: TaskStatus
 }
