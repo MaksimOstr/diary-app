@@ -16,10 +16,6 @@ export const MainPage: React.FC = () => {
   const { isLoading } = useGetTasksQuery()
   const tasks = useAppSelector(state => state.tasks.tasks)
   
-  
-
-
-  
   return (
     <Box>
       <TopBar/>

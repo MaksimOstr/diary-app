@@ -6,13 +6,6 @@ import { Box } from "@mui/material"
 import Form from "../features-SignUp/components/Form"
 import { server } from "globalShared"
 
-// Establish API mocking before all tests.
-beforeAll(() => server.listen())
-// Reset any request handlers that we may add during the tests,
-// so they don't affect other tests.
-afterEach(() => server.resetHandlers())
-// Clean up after the tests are finished.
-afterAll(() => server.close())
 
 describe('SignUp UI tests', () => {
     test('UI render', () => {
@@ -31,7 +24,7 @@ describe('SignUp UI tests', () => {
         expect(getByLabelText(/confirm password/i)).toBeInTheDocument()
         expect(getByRole('button')).toBeInTheDocument()
         expect(getByText(/You already have an account?/i)).toBeInTheDocument()
-        expect(getByTestId('link')).toBeInTheDocument()
+        expect(getByText(/signin/i)).toBeInTheDocument()
     })
 
     test("redirect by link", () => {
@@ -44,7 +37,7 @@ describe('SignUp UI tests', () => {
             </MemoryRouter>
         )
 
-        fireEvent.click(getByTestId('link'))
+        fireEvent.click(getByText(/signin/i))
         
         expect(getByText(/sign in page/i)).toBeInTheDocument()
     })

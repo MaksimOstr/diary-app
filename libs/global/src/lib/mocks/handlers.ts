@@ -1,5 +1,5 @@
 import { HttpResponse, http } from 'msw'
-import { IUserMockReq } from './types'
+import { ICreateTaskMockReq, IMockedTasks, IUserMockReq } from './types'
 
 
 
@@ -9,7 +9,7 @@ export const handlers = [
         const data = await request.json()
         if (data.username === 'test' && data.password === '1212') {
             return HttpResponse.json({
-                username: data.username
+                access_token: 'kdfajdkajrelwnrlwnr'
             })
         }
 
@@ -30,5 +30,17 @@ export const handlers = [
         return HttpResponse.json({
             username: data.username
         }, { status: 201 })
+    }),
+
+    http.get<never, ICreateTaskMockReq, IMockedTasks[]>('http://localhost:3000/api/task', () => {
+        return HttpResponse.json([])
+    }),
+
+    http.get('http://localhost:3000/api/auth/profile', () => {
+        return HttpResponse.json({
+            id: '1',
+            username: 'test',
+            roles: ['USER']
+        })
     })
 ]

@@ -42,3 +42,4 @@ Thumbs.db
 .env
 .vscode
 vite.config.mts.timestamp-*
+vite.config.mjs.timestamp-*

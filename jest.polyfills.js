@@ -1,11 +1,13 @@
 const { TextDecoder, TextEncoder } = require("node:util");
 const { ReadableStream, TransformStream } = require("node:stream/web");
+const { clearImmediate } = require('node:timers')
 
 Object.defineProperties(globalThis, {
   TextDecoder: { value: TextDecoder },
   TextEncoder: { value: TextEncoder },
   ReadableStream: { value: ReadableStream },
   TransformStream: { value: TransformStream },
+  clearImmediate: { value: clearImmediate }
 });
 
 const { Blob, File } = require("node:buffer");

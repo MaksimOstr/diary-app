@@ -11,6 +11,7 @@ export default {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nrwl/react/babel'] }],
   },
+  transformIgnorePatterns: ['node_modules/(?!dateformat)'],
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["@testing-library/jest-dom", "./jest.setup.ts"],
   setupFiles: ['./jest.polyfills.js'],
