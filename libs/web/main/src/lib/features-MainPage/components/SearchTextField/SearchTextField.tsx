@@ -8,7 +8,7 @@ const SearchTextField: React.FC<ISearchTextFieldfProps> = ({ tasks, isLoading })
 
   const dispatch = useAppDispatch()
   const search = (value: string) => {
-    if (tasks?.length === 0) return
+
     const filteredTasks = tasks?.filter((task: ITask) => {
       return task.title.toString().toLowerCase().includes(value.toLowerCase()) || task.description.toString().toLowerCase().includes(value.toLowerCase())
     })

@@ -14,13 +14,15 @@ export interface IMockedTasks {
 export interface ICreateTaskMockReq {
         title: string
         description: string
-        status: string
+        status: ["NEUTRAL" | "URGENT" | "IMPORTANT"]
 }
 
-const enum TaskStatus {
-        "NEUTRAL",
-        "URGENT",
-        "IMPORTANT"
+export interface IMockedParam {
+        id: string
+}
+
+export interface IMockDeleteReq {
+        taskId: string  
 }
 
 

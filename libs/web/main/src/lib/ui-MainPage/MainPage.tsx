@@ -20,7 +20,7 @@ export const MainPage: React.FC = () => {
     <Box>
       <TopBar/>
       {isAuth ?
-        <Fab onClick={() => navigate('/task/create')} sx={FabProps.sx} color="secondary" aria-label="add">
+        <Fab data-testid='addNewTaskPage' onClick={() => navigate('/task/create')} sx={FabProps.sx} color="secondary" aria-label="add">
           <AddIcon />
         </Fab> :
         ''}

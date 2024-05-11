@@ -39,7 +39,7 @@ export const authApiSlice = authApi.injectEndpoints({
         createTask: builder.mutation<ITask, ICreateTaskReq>({
             query: (body) => ({
                 url: `task/create`,
-                method: 'Post',
+                method: 'POST',
                 body: body
             }),
             invalidatesTags: ['Tasks']
