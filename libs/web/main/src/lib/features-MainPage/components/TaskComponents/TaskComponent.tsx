@@ -13,7 +13,6 @@ export const TaskComponent: React.FC<ITaskComponentProps> = ({ task }) => {
   const theme = useTheme()
   const [deleteTask] = useDeleteTaskMutation()
   const navigate = useNavigate()
-
   return (
     <Masonry
       breakpointCols={breakpointColumnsObj}

@@ -55,6 +55,7 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
             <InputBase
               sx={{ fontSize: '25px' }}
               placeholder='Enter a title'
+              inputProps={{ "data-testid": 'titleInput' }}
               color='secondary'
               autoComplete='false'
               fullWidth
@@ -73,6 +74,7 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
               maxRows={25}
               sx={{ mt: 1 }}
               color='secondary'
+              inputProps={{ "data-testid": 'descInput' }}
               placeholder='Enter a description'
               autoComplete='false'
               fullWidth
@@ -93,6 +95,7 @@ const TaskEditForm = forwardRef<any, IChangeTaskPageProps>(({ data, id }, ref) =
             name='status'
             render={({ field }) => (
               <Select
+                inputProps={{ "data-testid": 'typeInput' }}
                 sx={{ width: '30%' }}
                 onChange={(e) => field.onChange(e)}
                 value={field.value}

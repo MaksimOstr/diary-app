@@ -2,9 +2,10 @@ import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Parse
 import { UserService } from "./user.service";
 import { User } from "@prisma/client";
 import { CurrentUser, JwtPayload } from "shared-backend";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-
-
+@ApiTags('user')
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
     constructor(

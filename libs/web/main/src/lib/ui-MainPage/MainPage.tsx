@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Box, Fab } from '@mui/material'
 import TopBar from '../features-MainPage/components/TopBar/TopBar'
 import AddIcon from '@mui/icons-material/Add';
@@ -16,15 +16,11 @@ export const MainPage: React.FC = () => {
   const { isLoading } = useGetTasksQuery()
   const tasks = useAppSelector(state => state.tasks.tasks)
   
-  
-
-
-  
   return (
     <Box>
       <TopBar/>
       {isAuth ?
-        <Fab onClick={() => navigate('/task/create')} sx={FabProps.sx} color="secondary" aria-label="add">
+        <Fab data-testid='addNewTaskPage' onClick={() => navigate('/task/create')} sx={FabProps.sx} color="secondary" aria-label="add">
           <AddIcon />
         </Fab> :
         ''}

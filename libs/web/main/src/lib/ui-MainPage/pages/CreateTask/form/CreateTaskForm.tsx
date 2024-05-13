@@ -54,6 +54,7 @@ const CreateTaskForm = forwardRef(({}, ref) => {
                         name='title'
                         render={({ field }) => (
                             <TextField
+                                inputProps={{ "data-testid": 'titleInput' }}
                                 color='secondary'
                                 autoComplete='false'
                                 maxRows={2}
@@ -70,6 +71,7 @@ const CreateTaskForm = forwardRef(({}, ref) => {
                         name='status'
                         render={({ field }) => (
                             <Select
+                                inputProps={{ "data-testid": 'typeInput' }}
                                 value={field.value}
                                 onChange={(e) => field.onChange(e)}
                                 sx={{ ml: 1, width: '20%' }}
@@ -87,6 +89,7 @@ const CreateTaskForm = forwardRef(({}, ref) => {
                     render={({ field }) => (
                         <TextField
                             rows={9}
+                            inputProps={{ "data-testid": 'descInput' }}
                             color='secondary'
                             autoComplete='false'
                             fullWidth

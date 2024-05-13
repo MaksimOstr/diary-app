@@ -1,10 +1,43 @@
 import { Box, Grid, TextField, Button } from '@mui/material'
 import React from 'react'
-import { Controller } from 'react-hook-form'
+import { Controller, SubmitHandler } from 'react-hook-form'
 import { submitButtonProps } from '../styles/styles'
-import { ISignUpFormProps } from '../types'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { formSchema } from '../schema/schema'
+import { ISignUp } from '../types'
+import { IUserReq, useRegisterMutation } from '@diary-app/shared'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit }) => {
+
+const Form: React.FC = () => {
+    
+
+    const [register] = useRegisterMutation()
+    const navigate = useNavigate()
+    const { control, handleSubmit, reset, formState: { errors } } = useForm<ISignUp>({
+        mode: 'onChange',
+        resolver: yupResolver(formSchema),
+        defaultValues: {
+            username: '',
+            password: '',
+            confirmPassword: ''
+        }
+    })
+
+    const onSubmit: SubmitHandler<IUserReq> = async (data) => {
+        await register(data).unwrap()
+            .then(res => {
+                toast.success('Account is successfully created!')
+                navigate('/SignIn')
+            })
+            .catch(error => {
+                toast.error(error.data.message)
+                reset()
+            })
+    }
+
     return (
         <Box
             width='100%'
@@ -13,7 +46,7 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
             flexDirection='column'
             justifyContent='center'
             alignItems='center'
-            onSubmit={submit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
         >
             <Grid container width='100%' spacing={2} display='flex' alignItems='center' justifyContent='center'>
                 <Grid item xs={12}>
@@ -22,6 +55,7 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                         name='username'
                         render={({ field }) => (
                             <TextField
+                                inputProps={{ "data-testid": "usernameField" }}
                                 color='secondary'
                                 autoComplete='false'
                                 fullWidth
@@ -40,6 +74,7 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                         name='password'
                         render={({ field }) => (
                             <TextField
+                                inputProps={{ "data-testid": "passwordField" }}
                                 color='secondary'
                                 autoComplete='false'
                                 fullWidth
@@ -59,6 +94,7 @@ const Form: React.FC<ISignUpFormProps> = ({ submit, control, errors, onSubmit })
                         name='confirmPassword'
                         render={({ field }) => (
                             <TextField
+                                inputProps={{ "data-testid": "confirmPasswordField" }}
                                 color='secondary'
                                 autoComplete='false'
                                 fullWidth

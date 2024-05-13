@@ -1,12 +1,11 @@
-import { AppBar, Button, Container, useTheme, Toolbar, Chip, ListItemIcon, MenuItem, Menu, TextField, Box } from '@mui/material'
+import { AppBar, Button, Container, useTheme, Toolbar, Chip, ListItemIcon, MenuItem, Menu, TextField, Box, Typography } from '@mui/material'
 import React from 'react'
 import BookIcon from '@mui/icons-material/Book';
-import { Typography } from '@mui/material';
 import { useAppSelector, useGetTasksQuery, useLogoutMutation } from '@diary-app/shared';
 import { useNavigate } from 'react-router-dom';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import DatePicker from '../DatePicker/DatePicker'
+import DatePickerElement from '../DatePicker/DatePicker'
 import SearchTextField from '../SearchTextField/SearchTextField';
 import UserDropIcon from '../UserDropIcon/UserDropIcon';
 
@@ -27,7 +26,7 @@ export default function TopBar() {
                         <BookIcon fontSize='large' />
                         <Typography fontWeight='600' ml={1.5} variant='h5'>Diary</Typography>
                         {isAuth ? <SearchTextField tasks={data} isLoading={isLoading} /> : ''}
-                        {isAuth ? <DatePicker tasks={data} isLoading={isLoading} /> : ''}
+                        {isAuth ? <DatePickerElement tasks={data} isLoading={isLoading} /> : ''}
                     </Box>
                     {isAuth ? <UserDropIcon user={user} navigate={navigate} /> : <Button size='medium' color='secondary' onClick={() => navigate('/SignIn')} variant="contained">Log In</Button>}
                 </Toolbar>

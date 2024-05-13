@@ -7,10 +7,12 @@ import { AuthReqDto, Cookie, CurrentUser, JwtPayload, Public, Roles, UserAgent }
 import { Role, User } from "@prisma/client";
 import { UserResponse } from "shared-backend";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
+import { server } from "globalShared";
+import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiCookieAuth, ApiCreatedResponse, ApiHeader, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 
-
-
+@ApiBearerAuth()
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -18,7 +20,9 @@ export class AuthController {
         private readonly configService: ConfigService
     ) { }
 
+    @ApiBody({ type: AuthReqDto })
     @Public()
+    @ApiCreatedResponse({ description: 'New account was created' })
     @UseInterceptors(ClassSerializerInterceptor)
     @Post('register')
     async register(@Body() dto: AuthReqDto): Promise<User> {
@@ -26,6 +30,8 @@ export class AuthController {
         return new UserResponse(user)
     }
 
+    @ApiBody({ type: AuthReqDto })
+    @ApiResponse({ status: HttpStatus.OK, description: 'You successfully logged in the account' })
     @Public()
     @Post('login')
     async login(
@@ -38,6 +44,7 @@ export class AuthController {
         return tokens
     }
 
+    @ApiResponse({ status: HttpStatus.OK, description: 'Tokens were successfully refreshed' })
     @Public()
     @Get('refresh')
     async refreshTokens(
@@ -45,11 +52,12 @@ export class AuthController {
         @Res() res: Response,
         @UserAgent() agent: string
     ) {
+        console.log(refreshToken)
         const tokens = await this.authService.refreshTokens(refreshToken, agent)
         this.setRefreshTokenToCookies(tokens, res)
     }
 
-
+    @ApiResponse({ status: HttpStatus.OK, description: 'You logged out from the account' })
     @Get('logout')
     async logout(
         @Cookie('refreshToken') refreshToken: string,
@@ -60,7 +68,7 @@ export class AuthController {
         return res.json(HttpStatus.OK)
     }
 
-
+    @ApiResponse({ status: HttpStatus.OK, description: 'Get your profile' })
     @Get('profile')
     getProfile(
         @CurrentUser() user: JwtPayload
@@ -69,6 +77,7 @@ export class AuthController {
         return user
     }
 
+    @ApiResponse({ status: HttpStatus.OK, description: 'Username was changed' })
     @Put('/changeUsername')
     async changeUser(
         @CurrentUser() user: JwtPayload,
@@ -103,6 +112,7 @@ export class AuthController {
         return res.json(HttpStatus.OK)
     }
 
+    @ApiResponse({ status: HttpStatus.OK, description: 'Password was changed' })
     @Put('/changePassword')
     async changePassword(
         @CurrentUser() user: JwtPayload,

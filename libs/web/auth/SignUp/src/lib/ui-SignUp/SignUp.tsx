@@ -5,7 +5,7 @@ import { formSchema } from '../features-SignUp/schema/schema'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formBodyProps } from '../features-SignUp/styles/styles'
 import { IUserReq, useRegisterMutation } from '@diary-app/shared';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { ISignUp } from '../features-SignUp/types';
 import Form from '../features-SignUp/components/Form';
@@ -13,27 +13,6 @@ import Form from '../features-SignUp/components/Form';
 export const SignUp: React.FC = () => {
 
     const theme = useTheme()
-    const navigate = useNavigate()
-    const [register] = useRegisterMutation()
-    const { control, handleSubmit, reset, formState: { errors } } = useForm<ISignUp>({
-        mode: 'onChange',
-        resolver: yupResolver(formSchema),
-        defaultValues: {
-            username: '',
-            password: '',
-            confirmPassword: ''
-        }
-    })
-
-    //test
-    const onSubmit: SubmitHandler<IUserReq> = async (data) => {
-        await register(data).unwrap()
-            .then(res => navigate('/SignIn'))
-            .catch(error => {
-                toast.error(error.data.message)
-            })
-        reset()
-    }
 
     return (
         <Box
@@ -42,6 +21,7 @@ export const SignUp: React.FC = () => {
             display='flex'
             justifyContent='center'
             alignItems='center'
+            data-testid="background"
         >
             <Box
                 bgcolor={theme.palette.background.paper}
@@ -50,9 +30,11 @@ export const SignUp: React.FC = () => {
                 justifyContent='center'
                 alignItems='center'
                 flexDirection='column'
+                data-testid="paper"
             >
-                <Typography mb={6} variant='h2' fontWeight='500'>Sign Up</Typography>
-                <Form submit={handleSubmit} control={control} errors={errors} onSubmit={onSubmit} />
+                <Typography data-testid="title" mb={2} variant='h2' fontWeight='500'>Sign up</Typography>
+                <Typography mb={6} variant='body2'>You already have an account? <Link to='/SignIn' style={{ textDecoration: 'none', color: theme.palette.primary.contrastText }}>SignIn</Link></Typography>
+                <Form/>
             </Box>
         </Box >
     )

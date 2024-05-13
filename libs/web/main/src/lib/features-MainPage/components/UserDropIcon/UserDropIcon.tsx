@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom';
 const UserDropIcon: React.FC<IAccountMenuProps> = ({ user }) => {
 
     const [logout] = useLogoutMutation()
-    const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -27,10 +26,6 @@ const UserDropIcon: React.FC<IAccountMenuProps> = ({ user }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const handleOpenUserInfo = () => {
-        setAnchorEl(null);
-    }
     const navigate = useNavigate()
     const handlelogout = async () => {
         setAnchorEl(null);
@@ -48,6 +43,7 @@ const UserDropIcon: React.FC<IAccountMenuProps> = ({ user }) => {
                         onClick={handleClick}
                         size="large"
                         sx={{ pr: 2 }}
+                        data-testid= 'userDropIcon'
                         aria-controls={open ? 'account-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}

@@ -15,7 +15,7 @@ export const ChangeUsernameForm: React.FC = () => {
   const navigate = useNavigate()
   const { data } = useFetchUserQuery()
   const [changeUsername] = useChangeUsernameMutation()
-
+  
   const { control, handleSubmit, reset, formState: { errors } } = useForm<{ username: string }>({
     mode: 'onChange',
     resolver: yupResolver(formSchema),

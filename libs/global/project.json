@@ -1,0 +1,19 @@
+{
+  "name": "global",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/global/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/global",
+        "main": "libs/global/src/index.ts",
+        "tsConfig": "libs/global/tsconfig.lib.json",
+        "assets": ["libs/global/*.md"]
+      }
+    }
+  },
+  "tags": []
+}
