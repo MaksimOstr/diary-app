@@ -4,14 +4,13 @@ pr:
   - master
 
 variables:
-  CI: 'true'
   ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
     NX_BRANCH: $(System.PullRequest.PullRequestId)
   ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
     NX_BRANCH: $(Build.SourceBranchName)
 
 jobs:
-  - job: master
+  - job: main
     pool:
       vmImage: 'ubuntu-latest'
     steps:
